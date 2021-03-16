@@ -3,18 +3,23 @@
 }
 
 .App-logo {
-  height: 40vmin;
+  height: 20vmin;
   pointer-events: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
+/* @media (prefers-reduced-motion: no-preference) {
   .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+    animation: App-logo-spin infinite 0s linear;
   }
-}
+} */
 
+
+/* Pallete Colors */
+/* https://coolors.co/023e8d-0fcbfa-f0f3bd-ea0f0b-f9dc5c-000f08-7dde92-6f857d */
 .App-header {
-  background-color: #282c34;
+  /* background-image: #023E8D; */
+  /* https://bggenerator.com/ */
+  background-image: url("../../assets/bg.png");
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -33,6 +38,6 @@
     transform: rotate(0deg);
   }
   to {
-    transform: rotate(360deg);
+    transform: rotate(90deg);
   }
 }
