@@ -4,7 +4,8 @@ import { createHashHistory } from 'history';
 import { configureStore } from '../../store';
 
 
-import LoginPage from '../Login';
+import LoginScreen from '../Login';
+import HomeScreensSuperAdmin from '../HomeScreenSuperAdmin';
 
 const { store } = configureStore();
 
@@ -25,7 +26,10 @@ const  App = () => {
 				)}}/>
 
 					<Route  exact path='/login'>
-					<LoginPage />
+					<LoginScreen />
+					</Route>
+					<Route   path='/home_screen_super_admin'>
+					<HomeScreensSuperAdmin />
 					</Route>
 					{/* <Route path='/signin'>
 					<Signin />
