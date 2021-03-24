@@ -1,0 +1,10 @@
+/* ./src/index.css */
+/* Include tailwind https://tailwindcss.com/ */
+:root {
+    --color-primary: #411218;
+    --color-secondary: #e8982e;
+  }
+  
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

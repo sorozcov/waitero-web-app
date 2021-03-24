@@ -8,8 +8,9 @@ module.exports = {
       colors:{
         primary:'#023E8D',
         secondary:'#0FCBFA',
-        'naples':'#F9DC5C'
-      }
+        naples:'#F9DC5C'
+      },
+      
     },
   },
   variants: {
