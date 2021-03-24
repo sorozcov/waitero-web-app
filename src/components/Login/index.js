@@ -1,7 +1,7 @@
 import logo from '../../assets/waitero.svg';
 import './index.css';
-import { withRouter } from "react-router-dom";
 import { history } from '../App/App.js';
+import Navbar from '../Navbar';
 
 function LoginScreen() {
   return (
@@ -9,7 +9,7 @@ function LoginScreen() {
     <div >
       <header className="background">
       
-  
+    
       <div className="flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 rounded-md w-2/6">
   <div className="max-w-full w-full space-y-8">
    

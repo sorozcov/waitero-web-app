@@ -11,7 +11,7 @@ const Restaurants = () => {
 
     return (
         <Fragment>
-            <Navbar />
+            <Navbar route={2}/>
             
             <div class = 'px-8 py-8'>
                 <h1 class = 'text-5xl font-bold'>RESTAURANTES</h1>
