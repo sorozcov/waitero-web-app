@@ -34,7 +34,7 @@ const RestaurantDetails = () => {
 
     return (
         <Fragment>
-            <Navbar />
+            <Navbar route={2}/>
 
             <div class="min-w-screen flex items-center justify-center m-16">
                 <img src = {restaurant.logo} className = 'logo' />
