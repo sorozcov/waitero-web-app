@@ -32,9 +32,7 @@ const  App = () => {
 					<Route exact path = '/restaurants' component = { Restaurants } />
 					<Route exact path = '/restaurants/:restaurantId' component = { RestaurantDetails } />
 
-					<Route  exact path='/login'>
-					<LoginScreen />
-					</Route>
+				
 					<Route   path='/home_screen_super_admin'>
 					<HomeScreensSuperAdmin />
 					</Route>
