@@ -1,0 +1,14 @@
+.divider {
+    border-top: 2px solid #EA0F0B;
+    margin: 1rem;
+    width: 373px;
+}
+
+.logo {
+    height: auto;
+    width: 20vw;
+}
+
+.bg-card {
+    width: 90vw;
+}
