@@ -1,91 +1,63 @@
+import React, { useState, useEffect } from 'react';
 import { Provider } from 'react-redux';
 import { Router, Route, Redirect } from 'react-router';
 import { createHashHistory } from 'history';
 import { configureStore } from '../../store';
 
 
-import LoginPage from '../Login';
+import * as selectors from '../../logic/reducers';
+import * as actions from '../../logic/actions/auth';
 import Restaurants from '../Restaurants';
 import RestaurantDetails from '../Restaurants/RestaurantDetails';
 import LoginScreen from '../Login';
 import HomeScreensSuperAdmin from '../HomeScreenSuperAdmin';
+import TokenRefresh from '../TokenRefresh';
 
 const { store } = configureStore();
 
 
 export const  history = createHashHistory();
 const  App = () => {
-   return(
-		<Provider store={store}>
-			<Router history={history} >
-				<Route exact path="/" render={() => { 
-					const initialPage ='/login';
-					return(
-					
-					<Redirect to={initialPage}/>
-				)}}/>
-				
-					<Route  exact path='/login'>
-						<LoginPage />
-					</Route>
+	const [isAuthenticated, setIsAuthenticated] = useState(false);
+	function getPersistedStorage() {
+		try {
+			const token = localStorage.getItem('auth');
+		  	if(!selectors.isAuthenticated(store.getState()) && token !== null){
+			    store.dispatch(actions.completeLogin(token));
+				setIsAuthenticated(true);
+		  	} 
+		} catch (error) {
+		 	console.log(error);
+		}
+	}
 
-					<Route exact path = '/restaurants' component = { Restaurants } />
-					<Route exact path = '/restaurants/:restaurantId' component = { RestaurantDetails } />
+	useEffect(getPersistedStorage,[]);
 
-				
-					<Route   path='/home_screen_super_admin'>
-					<HomeScreensSuperAdmin />
-					</Route>
-					{/* <Route path='/signin'>
-					<Signin />
-					</Route> */}
-					{/* <Route path='/main'
-					render={() => { 
-					const page = ((selectors.isLoggedUser(store.getState())) 
-						?  '/main' 
-						: '/login' );
-					return(
-					<Redirect to={page}/>
-					)}} > 
-					<Sidebar />
-					<PrivateRoute path={'/main/canciones'}  component={<Tracks />} store={store}/>
-					<PrivateRoute path={'/main/artistas'}  component={<Artists />} store={store}/>
-					<PrivateRoute path={'/main/álbumes'}  component={<Albums />} store={store}/>
-					<PrivateRoute path={'/main/reportes'}  component={<Reports />} store={store}/>
-					</Route> */}
-					{/* <Route path='/editar'
-					render={() => { 
-					const page = ((selectors.isLoggedUser(store.getState())) 
-						? '/editar' 
-						: '/login');
-					return(
-					<Redirect to={page}/>
-					)}} > 
-					<PrivateRoute path={'/editar/canción'}  component={<EditTrack />} store={store}/>
-					<PrivateRoute path={'/editar/artista'}  component={<EditArtist />} store={store}/>
-					<PrivateRoute path={'/editar/álbum'}  component={<EditAlbum />} store={store}/>
-					<PrivateRouteAdmin path={'/editar/usuario'}  component={<EditUser />} store={store}/>
-					<PrivateRouteAdmin path={'/editar/rol'}  component={<EditRole />} store={store}/>
-					<PrivateRouteAdmin path={'/editar/permisos'}  component={<AssignPermission />} store={store}/>
+   	return(
+		<>
+			<Provider store={store}>
+				<Router history={history} >
+					<Route exact path="/" render={() => { 
+						var initialPage ='/login';
+						if(isAuthenticated)
+							initialPage ='/home_screen_super_admin';						
+						return(
+						
+						<Redirect to={initialPage}/>
+					)}}/>
 					
-					</Route> */}
-					
-					{/* <Route path='/admin'
-					render={() => { 
-					const page = ((selectors.isLoggedUser(store.getState())) 
-						? '/admin'  
-						: '/login');
-					return(
-					<Redirect to={page}/> */}
-					{/* )}} > 
-					<SidebarAdmin />
-					<PrivateRouteAdmin path={'/admin/usuarios'}  component={<Users />} store={store}/>
-					<PrivateRouteAdmin path={'/admin/roles'}  component={<Roles />} store={store}/>
-					<PrivateRouteAdmin path={'/admin/simulación'}  component={<Simulation />} store={store}/>
-					<PrivateRouteAdmin path={'/admin/bitácora'}  component={<LogBook />} store={store}/> */}
-					{/* </Route> */}
-			</Router>
-		</Provider>
+						<Route  exact path='/login' component = { LoginScreen } />
+
+						{/* Solo si esta autenticado podrá acceder a las siguientes partes de la aplicación */}
+						<Route exact path = '/restaurants' component = { Restaurants } />
+						<Route exact path = '/restaurants/:restaurantId' component = { RestaurantDetails } />				
+						<Route path='/home_screen_super_admin' component = { HomeScreensSuperAdmin } />
+				</Router>
+				{/* Actualiza el token solo si esta autenticado */}
+				<TokenRefresh reviewTime={10000} />
+			</Provider>
+			
+		</>
 	);
 }
 
