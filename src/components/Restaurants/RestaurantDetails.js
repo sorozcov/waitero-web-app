@@ -14,7 +14,7 @@ const RestaurantDetails = () => {
 
     branches.forEach( 
         agency => {
-            if(agency.restaurant_id == restaurantId) {
+            if(agency.restaurant_id === restaurantId) {
                 branch = agency;
             };
 
@@ -24,7 +24,7 @@ const RestaurantDetails = () => {
 
     restaurants.forEach( 
         place => {
-            if(place.id == restaurantId) {
+            if(place.id === restaurantId) {
                 restaurant = place;
             };
 
@@ -37,7 +37,7 @@ const RestaurantDetails = () => {
             <Navbar route={2}/>
 
             <div class="min-w-screen flex items-center justify-center m-16">
-                <img src = {restaurant.logo} className = 'logo' />
+                <img src = {restaurant.logo} alt="" className = 'logo' />
             </div>
 
             

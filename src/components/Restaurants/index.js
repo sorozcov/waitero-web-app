@@ -42,7 +42,7 @@ const Restaurants = () => {
                             </div>
                             <div class="bg-white bg-opacity-95 shadow-md rounded-r-xl p-4 flex flex-col mr-4 mb-8">
                                 {/* <h3 class="text-xl font-bold pb-2">{restaurant.name}</h3> */}
-                                <img src = { restaurant.logo} style = {{maxHeight: '75px', width: 'auto'}}/>
+                                <img src = { restaurant.logo} alt="" style = {{maxHeight: '75px', width: 'auto'}}/>
                             </div>
                         </div>
                     )
