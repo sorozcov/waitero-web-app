@@ -93,9 +93,9 @@ import TOKEN_LIFE_TIME from './settings/tokenLifeTime';
        
         const token = yield select(selectors.getAuthToken);
         
-        const response = yield call(
+        const responseSuperAdmin = yield call(
           fetch,
-          `${API_BASE_URL}/restaurantAdmins/${userId}/`,
+          `${API_BASE_URL}/superAdmins/${userId}/`,
           {
             method: 'GET',
             headers:{
@@ -106,12 +106,34 @@ import TOKEN_LIFE_TIME from './settings/tokenLifeTime';
         );
       
       
-        if (response.status <= 300) {
-          const jsonResultUser = yield response.json();
+        if (responseSuperAdmin.status <= 300) {
+          const jsonResultUser = yield responseSuperAdmin.json();
           yield put(actions.authenticationUserInformationCompleted(jsonResultUser));
           
         } else {
-          console.log('error')
+          
+          const responseRestaurantAdmin = yield call(
+            fetch,
+            `${API_BASE_URL}/restaurantAdmins/${userId}/`,
+            {
+              method: 'GET',
+              headers:{
+                'Content-Type': 'application/json',
+                'Authorization': `JWT ${token}`,
+              },
+            }
+          );
+        
+        
+          if (responseRestaurantAdmin.status <= 300) {
+            const jsonResultUser = yield responseRestaurantAdmin.json();
+            yield put(actions.authenticationUserInformationCompleted(jsonResultUser));
+            
+          } else {
+            //Se elimina el token del local storage
+            localStorage.removeItem('auth');
+          }
+
         }
       }
     } catch (error) {

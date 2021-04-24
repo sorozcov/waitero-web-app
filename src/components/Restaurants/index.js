@@ -13,8 +13,8 @@ const Restaurants = () => {
         <Fragment>
             <Navbar route={2}/>
             
-            <div class = 'px-8 py-8'>
-                <h1 class = 'text-5xl font-bold'>RESTAURANTES</h1>
+            <div className= 'px-8 py-8'>
+                <h1 className= 'text-5xl font-bold'>RESTAURANTES</h1>
                 <hr className = "divider" />
             </div>
 
@@ -28,7 +28,7 @@ const Restaurants = () => {
                 </button>
             </div>
 
-            <div class = 'grid grid-cols-4 gap-4 px-8'>
+            <div className= 'grid grid-cols-4 gap-4 px-8'>
                 {
                     restaurants.map( restaurant => 
                         <div className="flex flex-col justify-between w-40 sm:w-96 h-64 bg-center text-gray-800 shadow-md overflow-hidden cursor-pointer" style={{ backgroundImage:`url(${restaurant.food})`}} onClick = { () => history.push(`/restaurants/${restaurant.id}`)}>
