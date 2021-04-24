@@ -12,6 +12,7 @@ import RestaurantDetails from '../Restaurants/RestaurantDetails';
 import LoginScreen from '../Login';
 import HomeScreensSuperAdmin from '../HomeScreenSuperAdmin';
 import TokenRefresh from '../TokenRefresh';
+import PrivateRoute from '../Routes/PrivateRoute';
 
 const { store } = configureStore();
 
@@ -49,9 +50,9 @@ const  App = () => {
 						<Route  exact path='/login' component = { LoginScreen } />
 
 						{/* Solo si esta autenticado podrá acceder a las siguientes partes de la aplicación */}
-						<Route exact path = '/restaurants' component = { Restaurants } />
-						<Route exact path = '/restaurants/:restaurantId' component = { RestaurantDetails } />				
-						<Route path='/home_screen_super_admin' component = { HomeScreensSuperAdmin } />
+						<PrivateRoute exact path = '/restaurants' component = { Restaurants } />
+						<PrivateRoute exact path = '/restaurants/:restaurantId' component = { RestaurantDetails } />				
+						<PrivateRoute exact path='/home_screen_super_admin' component = { HomeScreensSuperAdmin } />
 				</Router>
 				{/* Actualiza el token solo si esta autenticado */}
 				<TokenRefresh reviewTime={10000} />

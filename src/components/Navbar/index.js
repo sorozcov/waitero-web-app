@@ -1,10 +1,9 @@
-import React, { Fragment,useState } from 'react';
+import React, { useState } from 'react';
 import { history } from '../App/App.js';
 import logo from '../../assets/waitero.svg';
 import { connect } from 'react-redux';
 
 
-import * as selectors from '../../logic/reducers';
 import * as actionsAuth from '../../logic/actions/auth';
 
 

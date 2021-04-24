@@ -1,11 +1,8 @@
-import logo from '../../assets/waitero.svg';
 import './index.css';
 
-import { useHistory } from 'react-router-dom';
 import Navbar from '../Navbar';
 
 function HomeScreenSuperAdmin() {
-  const history = useHistory();
   return (
     <div>
       
