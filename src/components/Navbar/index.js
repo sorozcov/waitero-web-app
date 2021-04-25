@@ -23,7 +23,7 @@ const Navbar = ({route=1, logout}) => {
                   {/* Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" */}
                   <button className={route===1 ? "bg-secondary text-white px-3 py-2 rounded-md text-sm font-medium" : 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'} onClick = { () => history.push('/home_screen_super_admin')}>Dashboard</button>
                   <button className={route===2 ? "bg-secondary text-white px-3 py-2 rounded-md text-sm font-medium" : 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'} onClick = { () => history.push('/restaurants')}>Restaurantes</button>
-                  <button className={route===3 ? "bg-secondary text-white px-3 py-2 rounded-md text-sm font-medium" : 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'}>Usuarios</button>
+                  <button className={route===3 ? "bg-secondary text-white px-3 py-2 rounded-md text-sm font-medium" : 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'} onClick = { () => history.push('/users')}>Usuarios</button>
                   <button className={route===4 ? "bg-secondary text-white px-3 py-2 rounded-md text-sm font-medium" : 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'}>Clientes</button>
                   <button className={route===5 ? "bg-secondary text-white px-3 py-2 rounded-md text-sm font-medium" : 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'}>Reportes</button>
                 </div>

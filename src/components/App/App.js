@@ -8,6 +8,7 @@ import { configureStore } from '../../store';
 import * as selectors from '../../logic/reducers';
 import * as actions from '../../logic/actions/auth';
 import Restaurants from '../Restaurants';
+import Users from '../Users';
 import RestaurantDetails from '../Restaurants/RestaurantDetails';
 import LoginScreen from '../Login';
 import HomeScreensSuperAdmin from '../HomeScreenSuperAdmin';
@@ -19,14 +20,16 @@ const { store } = configureStore();
 
 export const  history = createHashHistory();
 const  App = () => {
-	const [isAuthenticated, setIsAuthenticated] = useState(false);
+	const [isAuthenticated, setIsAuthenticated] = useState(null);
 	function getPersistedStorage() {
 		try {
 			const token = localStorage.getItem('auth');
 		  	if(!selectors.isAuthenticated(store.getState()) && token !== null){
 			    store.dispatch(actions.completeLogin(token));
 				setIsAuthenticated(true);
-		  	} 
+		  	} else {
+				setIsAuthenticated(false);
+			} 
 		} catch (error) {
 		 	console.log(error);
 		}
@@ -35,6 +38,7 @@ const  App = () => {
 	useEffect(getPersistedStorage,[]);
 
    	return(
+		isAuthenticated != null &&
 		<>
 			<Provider store={store}>
 				<Router history={history} >
@@ -50,9 +54,10 @@ const  App = () => {
 						<Route  exact path='/login' component = { LoginScreen } />
 
 						{/* Solo si esta autenticado podrá acceder a las siguientes partes de la aplicación */}
-						<PrivateRoute exact path = '/restaurants' component = { Restaurants } />
-						<PrivateRoute exact path = '/restaurants/:restaurantId' component = { RestaurantDetails } />				
-						<PrivateRoute exact path='/home_screen_super_admin' component = { HomeScreensSuperAdmin } />
+						<PrivateRoute exact path = '/restaurants' component = { Restaurants } route={2} />
+						<PrivateRoute exact path = '/restaurants/:restaurantId' component = { RestaurantDetails } route={2} />				
+						<PrivateRoute exact path='/home_screen_super_admin' component = { HomeScreensSuperAdmin } route={1} />
+						<PrivateRoute exact path = '/users' component = { Users } route={3} />
 				</Router>
 				{/* Actualiza el token solo si esta autenticado */}
 				<TokenRefresh reviewTime={10000} />

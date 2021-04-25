@@ -1,7 +1,6 @@
 import React, { Fragment, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import Navbar from '../Navbar';
 import './styles.css';
 import { branches, restaurants } from '../../constants/data';
 
@@ -34,7 +33,6 @@ const RestaurantDetails = () => {
 
     return (
         <Fragment>
-            <Navbar route={2}/>
 
             <div className="min-w-screen flex items-center justify-center m-16">
                 <img src = {restaurant.logo} alt="" className = 'logo' />

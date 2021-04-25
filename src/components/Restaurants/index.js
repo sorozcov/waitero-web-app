@@ -1,7 +1,6 @@
 import React, { Fragment, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import Navbar from '../Navbar';
 import './styles.css';
 import { restaurants } from '../../constants/data';
 
@@ -11,7 +10,6 @@ const Restaurants = () => {
 
     return (
         <Fragment>
-            <Navbar route={2}/>
             
             <div className= 'px-8 py-8'>
                 <h1 className= 'text-5xl font-bold'>RESTAURANTES</h1>
