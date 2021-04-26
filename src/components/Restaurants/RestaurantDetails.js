@@ -62,29 +62,29 @@ const RestaurantDetails = () => {
                             </div>
                         </div>
                             
-                            <table class="min-w-max w-full table-auto">
+                            <table className='mx-auto max-w-4xl w-full whitespace-nowrap rounded-lg bg-white divide-y divide-gray-300 overflow-hidden'>
                                 <thead>
-                                    <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                                        <th class="py-3 px-6 text-left">#</th>
-                                        <th class="py-3 px-6 text-left">NOMBRE</th>
-                                        <th class="py-3 px-6 text-left">DIRECCIÓN</th>
+                                    <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                                        <th className="py-3 px-6 text-left">#</th>
+                                        <th className="py-3 px-6 text-left">NOMBRE</th>
+                                        <th className="py-3 px-6 text-left">DIRECCIÓN</th>
                                     </tr>
                                 </thead>
-                                <tbody class="text-gray-600 text-sm font-light">
-                                    <tr class="border-b border-gray-200 hover:bg-gray-100">
-                                        <td class="py-3 px-6 text-left whitespace-nowrap">
-                                            <div class="flex items-center">
-                                                <span class="font-medium">{branch.id}</span>
+                                <tbody className="text-gray-600 text-sm font-light">
+                                    <tr className="border-b border-gray-200 hover:bg-gray-100">
+                                        <td className="py-3 px-6 text-left whitespace-nowrap">
+                                            <div className="flex items-center">
+                                                <span className="font-medium">{branch.id}</span>
                                             </div>
                                         </td>
-                                        <td class="py-3 px-6 text-left">
-                                            <div class="flex items-center">
+                                        <td className="py-3 px-6 text-left">
+                                            <div className="flex items-center">
                                                 <span>{branch.name}</span>
                                             </div>
                                         </td>
-                                        <td class="py-3 px-6 text-center">
-                                            <div class="flex items-center">
-                                                <span class="font-medium">{branch.location}</span>
+                                        <td className="py-3 px-6 text-center">
+                                            <div className="flex items-center">
+                                                <span className="font-medium">{branch.location}</span>
                                             </div>
                                         </td>
                                     </tr>

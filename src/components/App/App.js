@@ -11,7 +11,10 @@ import Restaurants from '../Restaurants';
 import RestaurantDetails from '../Restaurants/RestaurantDetails';
 import LoginScreen from '../Login';
 import HomeScreensSuperAdmin from '../HomeScreenSuperAdmin';
+import Products from "../Products";
+import NewProductForm from "../NewProductForm";
 import TokenRefresh from '../TokenRefresh';
+import Menus from "../Menus";
 
 const { store } = configureStore();
 
@@ -25,7 +28,7 @@ const  App = () => {
 		  	if(!selectors.isAuthenticated(store.getState()) && token !== null){
 			    store.dispatch(actions.completeLogin(token));
 				setIsAuthenticated(true);
-		  	} 
+		  	}
 		} catch (error) {
 		 	console.log(error);
 		}
@@ -37,26 +40,29 @@ const  App = () => {
 		<>
 			<Provider store={store}>
 				<Router history={history} >
-					<Route exact path="/" render={() => { 
+					<Route exact path="/" render={() => {
 						var initialPage ='/login';
 						if(isAuthenticated)
-							initialPage ='/home_screen_super_admin';						
+							initialPage ='/home_screen_super_admin';
 						return(
-						
+
 						<Redirect to={initialPage}/>
 					)}}/>
-					
+
 						<Route  exact path='/login' component = { LoginScreen } />
 
 						{/* Solo si esta autenticado podrá acceder a las siguientes partes de la aplicación */}
 						<Route exact path = '/restaurants' component = { Restaurants } />
-						<Route exact path = '/restaurants/:restaurantId' component = { RestaurantDetails } />				
+						<Route exact path = '/restaurants/:restaurantId' component = { RestaurantDetails } />
 						<Route path='/home_screen_super_admin' component = { HomeScreensSuperAdmin } />
+						<Route path='/products' component = { Products } />
+						<Route path='/add_product' component = { NewProductForm } />
+						<Route path='/menus' component={Menus}/>
 				</Router>
 				{/* Actualiza el token solo si esta autenticado */}
 				<TokenRefresh reviewTime={10000} />
 			</Provider>
-			
+
 		</>
 	);
 }

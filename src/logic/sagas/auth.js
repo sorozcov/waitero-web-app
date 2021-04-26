@@ -13,15 +13,17 @@ import {
 import * as selectors from '../reducers';
 import * as actions from '../actions/auth';
 import * as types from '../types/auth';
+import * as constants from '../../constants/data';
   
 import API_BASE_URL from './settings/apibaseurl';
-import TOKEN_LIFE_TIME from './settings/tokenLifeTime';  
+import TOKEN_LIFE_TIME from './settings/tokenLifeTime';
+import {API_BASE_URL_WEB} from "../../constants/data";
 
   function* login(action) {
     try {
       const response = yield call(
         fetch,
-        `${API_BASE_URL}/token-auth/`,
+        `${API_BASE_URL_WEB}/token-auth/`,
         {
           method: 'POST',
           body: JSON.stringify(action.payload),
@@ -95,7 +97,7 @@ import TOKEN_LIFE_TIME from './settings/tokenLifeTime';
         
         const response = yield call(
           fetch,
-          `${API_BASE_URL}/restaurantAdmins/${userId}/`,
+          `${API_BASE_URL_WEB}/restaurantAdmins/${userId}/`,
           {
             method: 'GET',
             headers:{
@@ -133,12 +135,13 @@ import TOKEN_LIFE_TIME from './settings/tokenLifeTime';
 function* refreshToken(action) {
   const expiration = yield select(selectors.getAuthExpiration);
   const now =  parseInt(new Date().getTime() / 1000);
+  console.log(expiration - now, (TOKEN_LIFE_TIME/2))
   if (expiration - now < (TOKEN_LIFE_TIME/2)) {
     try {
       const token = yield select(selectors.getAuthToken);
       const response = yield call(
         fetch,
-        `${API_BASE_URL}/token-refresh/`,
+        `${API_BASE_URL_WEB}/token-refresh/`,
         {
           method: 'POST',
           body: JSON.stringify({ token }),
@@ -165,6 +168,7 @@ function* refreshToken(action) {
         //yield call(Alert.alert,titleError,errorMessage,alertButtons)   
       }
     } catch (error) {
+      console.log('error', error)
       yield localStorage.removeItem('auth');
       yield put(actions.logout());
       yield put(actions.failTokenRefresh('Falló la conexión'));

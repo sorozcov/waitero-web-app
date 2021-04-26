@@ -27,6 +27,8 @@ const Navbar = ({route=1, logout}) => {
                   <button className={route===3 ? "bg-secondary text-white px-3 py-2 rounded-md text-sm font-medium" : 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'}>Usuarios</button>
                   <button className={route===4 ? "bg-secondary text-white px-3 py-2 rounded-md text-sm font-medium" : 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'}>Clientes</button>
                   <button className={route===5 ? "bg-secondary text-white px-3 py-2 rounded-md text-sm font-medium" : 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'}>Reportes</button>
+                  <button className={route===6 ? "bg-secondary text-white px-3 py-2 rounded-md text-sm font-medium" : 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'} onClick = { () => history.push('/products')}>Productos</button>
+                  <button className={route===7 ? "bg-secondary text-white px-3 py-2 rounded-md text-sm font-medium" : 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'} onClick = { () => history.push('/menus')}>Menús</button>
                 </div>
               </div>
             </div>

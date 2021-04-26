@@ -16,38 +16,25 @@ function LoginScreen( { handleSubmit,startLogin, isLoading, isAuthenticated }) {
       history.replace("/home_screen_super_admin");
   },[isAuthenticated]);
   return (
-    
-    <div >
+    <div>
       <header className="background">
-      
-    
         <div className="flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 rounded-md w-2/6">
           <div className="max-w-full w-full space-y-8">
-   
             <img className="mx-auto h-28 w-auto" src={logo} alt="Workflow"></img>
-      
             <div className="text-left text-1xl font-bold text-gray-900" style={{marginTop:'0px',marginBottom:'0px'}}>
               Inicio de Sesión
             </div>
-            <hr
-                
-                style={{
+            <hr style={{
                     backgroundColor: '#0FCBFA',
                     height: 2,
                     marginTop:'0px'
-                }}
-            />
+                }}/>
             <form onSubmit={handleSubmit(startLogin)} className="mt-8 space-y-6" >
               <input type="hidden" name="remember" value="true"/>
-        
               <div className="rounded-md shadow-sm -space-y-px">
-                
                 <Field name={'username'} component={TextInput} label={'Usuario'} type={"text"} />
-              
                 <Field name={'password'} component={TextInput} label={'Contraseña'} type={"password"} />
-
               </div>
-
               <div className="flex items-center " style={{marginTop:'15px'}}>
                 <div className="text-sm">
                   <a href="http://localhost:3000/login" className="font-small text-secondary hover:text-secondary">
@@ -65,7 +52,6 @@ function LoginScreen( { handleSubmit,startLogin, isLoading, isAuthenticated }) {
                 </span>
                 </button>
               </div>
-        
             </form>
           </div>
         </div>
