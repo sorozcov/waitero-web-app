@@ -10,14 +10,14 @@ const Users = ({ users, fetchUsers }) => {
     return (
         <Fragment>
             <header className="bg-white shadow">
-                <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                <div className="max-w-full mx-auto py-6 px-4 sm:px-6 lg:px-8">
                 <h1 className="text-3xl font-bold text-gray-900">
-                    Dashboard
+                    Usuarios
                 </h1>
                 </div>
             </header>
             <main>
-                <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+                <div className="w-11/12 mx-auto py-6 sm:px-6 lg:px-8">
                     <div className="flex justify-end">
                         <button className="bg-transparent hover:bg-blue-500 mb-5 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
                             Nuevo Usuario
