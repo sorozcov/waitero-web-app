@@ -4,10 +4,11 @@ import logo from '../../assets/waitero.svg';
 import { connect } from 'react-redux';
 
 
+import * as selectors from '../../logic/reducers';
 import * as actionsAuth from '../../logic/actions/auth';
 
 
-const Navbar = ({route=1, logout}) => {
+const Navbar = ({route=1, logout, user}) => {
     const [showUserSettings, setShowUserSettings] = useState(false);
     return (
         <div>
@@ -43,7 +44,7 @@ const Navbar = ({route=1, logout}) => {
                   <div>
                     <button type="button" onClick={()=>{setShowUserSettings(!showUserSettings)}} className="max-w-xs bg-gray-800 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-secondary focus:ring-secondary" id="user-menu" aria-expanded="false" aria-haspopup="true">
                       <span className="sr-only">Open user menu</span>
-                      <img className="h-8 w-8 rounded-full" src="https://avatar.oxro.io/avatar.svg?name=John+Smith&background=F9DC5C&color=000" alt="" />
+                      <img className="h-8 w-8 rounded-full" src={`https://avatar.oxro.io/avatar.svg?name=${user == null ? "" : user.username}&background=F9DC5C&color=000`} alt="" />
                     </button>
                   </div>
                   {/*
@@ -144,7 +145,9 @@ const Navbar = ({route=1, logout}) => {
 };
 
 export default connect(
-  undefined,
+  state => ({
+    user: selectors.getAuthUserInformation(state),  
+  }),
   dispatch => ({
     logout(history) {
       localStorage.removeItem('auth');

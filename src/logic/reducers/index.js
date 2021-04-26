@@ -2,10 +2,12 @@ import { combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form'
 
 import auth, * as authSelectors from './auth';
+import users, * as usersSelectors from './users';
 import { AUTHENTICATION_IDENTITY_CLEARED } from '../types/auth';
 
 const reducer = combineReducers({
   auth,
+  users,
   form: formReducer,
 });
 
@@ -31,3 +33,14 @@ export const getAuthUser = state => authSelectors.getAuthUser(state.auth);
 export const getAuthUserInformation = state => authSelectors.getAuthUserInformation(state.auth);
 export const getIsRefreshingToken = state => authSelectors.getIsRefreshingToken(state.auth);
 export const getRefreshingError = state => authSelectors.getRefreshingError(state.auth);
+
+//Users
+export const getUser = (state, id) => usersSelectors.getUser(state.users, id);
+export const getUsers = state => usersSelectors.getUsers(state.users);
+export const getSelectedUser = state => usersSelectors.getSelectedUser(state.users);
+export const isFetchingUsers = state => usersSelectors.isFetchingUsers(state.users);
+export const isAddingUsers = state => usersSelectors.isAddingUsers(state.users);
+export const isEditingUsers = state => usersSelectors.isEditingUsers(state.users);
+export const isRemovingUsers = state => usersSelectors.isRemovingUsers(state.users);
+export const getUsersError = state => usersSelectors.getUsersError(state.users);
+export const getAddStatus = state => usersSelectors.getAddStatus(state.users);

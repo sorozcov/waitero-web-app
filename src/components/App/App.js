@@ -26,6 +26,7 @@ const  App = () => {
 			const token = localStorage.getItem('auth');
 		  	if(!selectors.isAuthenticated(store.getState()) && token !== null){
 			    store.dispatch(actions.completeLogin(token));
+			    store.dispatch(actions.authenticationUserInformationStarted());
 				setIsAuthenticated(true);
 		  	} else {
 				setIsAuthenticated(false);

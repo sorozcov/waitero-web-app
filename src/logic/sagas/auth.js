@@ -34,7 +34,7 @@ import TOKEN_LIFE_TIME from './settings/tokenLifeTime';
       if (response.status <= 300) {
         const { token } = yield response.json();
         //Se guarda el persisted storage////////
-        yield localStorage.setItem('auth', JSON.stringify(token));
+        yield localStorage.setItem('auth', token);
         ////////////////////////////////////////
         yield put(actions.completeLogin(token));
         yield put(actions.authenticationUserInformationStarted());
