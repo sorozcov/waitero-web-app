@@ -12,7 +12,7 @@ const Navbar = ({route=1, logout, user}) => {
     const [showUserSettings, setShowUserSettings] = useState(false);
     return (
         <div>
-            <nav className="bg-primary">
+            <nav className="bg-primary fixed w-full p-2">
         <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center">

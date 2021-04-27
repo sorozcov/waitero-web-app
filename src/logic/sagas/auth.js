@@ -130,15 +130,18 @@ import TOKEN_LIFE_TIME from './settings/tokenLifeTime';
             yield put(actions.authenticationUserInformationCompleted(jsonResultUser));
             
           } else {
-            //Se elimina el token del local storage
-            localStorage.removeItem('auth');
+            //Se elimina el persisted storage///////
+            yield localStorage.removeItem('auth');
+            ////////////////////////////////////////
           }
 
         }
       }
     } catch (error) {
       console.log(error);
+      //Se elimina el persisted storage///////
       yield localStorage.removeItem('auth');
+      ////////////////////////////////////////
       yield put(actions.logout());
       yield put(actions.failTokenRefresh('Falló la conexión'));    
     }
@@ -173,8 +176,13 @@ function* refreshToken(action) {
       if (response.status === 200) {
         const jResponse = yield response.json();
         yield put(actions.completeTokenRefresh(jResponse.token));
+        //Se guarda el persisted storage////////
+        yield localStorage.setItem('auth', jResponse.token);
+        ////////////////////////////////////////
       } else {
+        //Se elimina el persisted storage///////
         yield localStorage.removeItem('auth');
+        ////////////////////////////////////////
         yield put(actions.logout());
         const { non_field_errors } = yield response.json();
         yield put(actions.failTokenRefresh(non_field_errors[0]));

@@ -11,7 +11,7 @@ const Restaurants = () => {
     return (
         <Fragment>
             
-            <div className= 'px-8 py-8'>
+            <div className= 'px-8 py-8  pt-20'>
                 <h1 className= 'text-5xl font-bold'>RESTAURANTES</h1>
                 <hr className = "divider" />
             </div>

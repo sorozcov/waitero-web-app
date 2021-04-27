@@ -9,8 +9,8 @@ const Users = ({ users, fetchUsers }) => {
     useEffect(fetchUsers,[fetchUsers]);
     return (
         <Fragment>
-            <header className="bg-white shadow">
-                <div className="max-w-full mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <header className="bg-white shadow pt-20">
+                <div className="w-11/12 mx-auto py-6 px-4 sm:px-6 lg:px-8">
                 <h1 className="text-3xl font-bold text-gray-900">
                     Usuarios
                 </h1>
@@ -74,7 +74,7 @@ const Users = ({ users, fetchUsers }) => {
                                                 {user.phoneNumber}
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                <a href="#" className="text-indigo-600 hover:text-indigo-900">Editar</a>
+                                                <a href="/#" className="text-indigo-600 hover:text-indigo-900">Editar</a>
                                             </td>
                                         </tr>
                                         ))}

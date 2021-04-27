@@ -8,7 +8,7 @@ import { configureStore } from '../../store';
 import * as selectors from '../../logic/reducers';
 import * as actions from '../../logic/actions/auth';
 import Restaurants from '../Restaurants';
-import Users from '../Users';
+import Users from '../UsersList';
 import RestaurantDetails from '../Restaurants/RestaurantDetails';
 import LoginScreen from '../Login';
 import HomeScreensSuperAdmin from '../HomeScreenSuperAdmin';
