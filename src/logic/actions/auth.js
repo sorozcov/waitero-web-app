@@ -20,6 +20,10 @@ export const failLogin = error => ({
   payload: { error },
 });
 
+export const clearLoginError = () => ({
+  type: types.AUTHENTICATION_FAILED_CLEAR,
+});
+
 export const logout = () => ({
   type: types.AUTHENTICATION_IDENTITY_CLEARED,
 });

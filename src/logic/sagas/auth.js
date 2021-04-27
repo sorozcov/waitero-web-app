@@ -39,34 +39,10 @@ import TOKEN_LIFE_TIME from './settings/tokenLifeTime';
         yield put(actions.completeLogin(token));
         yield put(actions.authenticationUserInformationStarted());
       } else {
-        
-        
-       
         yield put(actions.failLogin('El nombre de usuario y contraseña introducidos no coinciden con nuestros registros. Revísalos e inténtalo de nuevo.'));
-        yield delay(200)
-        // const alertButtons =[
-        //     {text: 'Aceptar', style:'default'},
-        // ]
-        // const titleError ="Inténtalo de nuevo"
-        // const errorMessage='El nombre de usuario y contraseña introducidos no coinciden con nuestros registros. Revísalos e inténtalo de nuevo.';
-    
-        //yield call(Alert.alert,titleError,errorMessage,alertButtons)
-     
-        
-        
       }
     } catch (error) {
-      
       yield put(actions.failLogin('Falló la autentitación.'));
-      yield delay(200)
-      // const alertButtons =[
-      //       {text: 'Aceptar', style:'default'},
-      //   ]
-      // const titleError ="Inténtalo de nuevo"
-      // const errorMessage="Falló la conexión con el servidor."
-        
-    
-      //yield call(Alert.alert,titleError,errorMessage,alertButtons)
     }
   }
   
