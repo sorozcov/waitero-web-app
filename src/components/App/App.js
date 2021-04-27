@@ -47,11 +47,11 @@ const  App = () => {
 			<Provider store={store}>
 				<Router history={history} >
 					<Route exact path="/" render={() => {
-						var initialPage ='/login';
-						if(isAuthenticated)
+						let initialPage ='/login';
+						if(isAuthenticated){
 							initialPage ='/home_screen_super_admin';
+						}
 						return(
-
 						<Redirect to={initialPage}/>
 					)}}/>
 
@@ -62,12 +62,9 @@ const  App = () => {
 						<PrivateRoute exact path = '/restaurants/:restaurantId' component = { RestaurantDetails } route={2} />
 						<PrivateRoute exact path='/home_screen_super_admin' component = { HomeScreensSuperAdmin } route={1} />
 						<PrivateRoute exact path = '/users' component = { Users } route={3} />
-						<Route exact path = '/restaurants' component = { Restaurants } />
-						<Route exact path = '/restaurants/:restaurantId' component = { RestaurantDetails } />
-						<Route path='/home_screen_super_admin' component = { HomeScreensSuperAdmin } />
-						<Route path='/products' component = { Products } />
-						<Route path='/add_product' component = { NewProductForm } />
-						<Route path='/menus' component={Menus}/>
+						<PrivateRoute exact path='/products' component = { Products } />
+						<PrivateRoute exact path='/add_product' component = { NewProductForm } />
+						<PrivateRoute exact path='/menus' component={Menus}/>
 				</Router>
 				{/* Actualiza el token solo si esta autenticado */}
 				<TokenRefresh reviewTime={10000} />

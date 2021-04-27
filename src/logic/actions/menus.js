@@ -46,3 +46,17 @@ export const selectMenu = (id) => ({
 export const deselectMenu = () => ({
     type: types.MENU_DESELECTED
 });
+
+export const showMenuItems = (id) => ({
+    type: types.MENU_SHOW_ITEMS,
+    payload: {
+        id
+    }
+})
+
+export const hideMenuItems = (id) => ({
+    type: types.MENU_HIDE_ITEMS,
+    payload: {
+        id
+    }
+})

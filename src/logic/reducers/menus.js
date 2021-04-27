@@ -13,6 +13,7 @@ const byId = (state = {}, action) => {
             order.forEach(id => {
                 newState[id] = {
                     ...entities[id],
+                    showItems: false,
                     isConfirmed: true,
                 };
             });
@@ -38,6 +39,24 @@ const byId = (state = {}, action) => {
         }
         case types.MENU_REMOVE_STARTED: {
             return omit(state, action.payload.id);
+        }
+        case types.MENU_SHOW_ITEMS:{
+            return {
+                ...state,
+                [action.payload.id]:{
+                    ...state[action.payload.id],
+                    showItems: true
+                }
+            }
+        }
+        case types.MENU_HIDE_ITEMS:{
+            return {
+                ...state,
+                [action.payload.id]:{
+                    ...state[action.payload.id],
+                    showItems: false
+                }
+            }
         }
         default: {
             return state;

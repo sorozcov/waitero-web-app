@@ -40,7 +40,7 @@ const ProductList = ({onLoad, onSelectRow, products}) => {
                 <tbody className="text-gray-600 text-sm font-light">
                 {
                     products.map(
-                        product => <Product key={product.id} product={product}/>
+                        (product, index) => <Product key={product.id} product={product} index={index+1}/>
                     )
                 }
                 </tbody>

@@ -22,13 +22,13 @@ const MenuList = ({menus, onLoad}) => {
                         Precio
                     </th>
                     <th className="py-3 px-6 text-left">
-                        Editar
+                        Acciones
                     </th>
                 </tr>
                 </thead>
                 <tbody className="text-gray-600 text-sm font-light">
                     {
-                        menus.map(menu => <Menu key={menu.id} menu={menu}/>)
+                        menus.map((menu, index) => <Menu key={menu.id} menu={menu} index={index + 1}/>)
                     }
                 </tbody>
             </table>

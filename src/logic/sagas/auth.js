@@ -20,6 +20,7 @@ import TOKEN_LIFE_TIME from './settings/tokenLifeTime';
 import {API_BASE_URL_WEB} from "../../constants/data";
 
   function* login(action) {
+    console.log('login')
     try {
       const response = yield call(
         fetch,
@@ -32,18 +33,17 @@ import {API_BASE_URL_WEB} from "../../constants/data";
           },
         },
       );
-      
+      console.log(response.status)
       if (response.status <= 300) {
         const { token } = yield response.json();
         //Se guarda el persisted storage////////
         yield localStorage.setItem('auth', token);
         ////////////////////////////////////////
         yield put(actions.completeLogin(token));
-        yield put(actions.authenticationUserInformationStarted());
+        //yield put(actions.authenticationUserInformationStarted());
+
+        console.log('logged in')
       } else {
-        
-        
-       
         yield put(actions.failLogin('El nombre de usuario y contraseña introducidos no coinciden con nuestros registros. Revísalos e inténtalo de nuevo.'));
         yield delay(200)
         // const alertButtons =[
@@ -97,7 +97,7 @@ import {API_BASE_URL_WEB} from "../../constants/data";
         
         const responseSuperAdmin = yield call(
           fetch,
-          `${API_BASE_URL}/superAdmins/${userId}/`,
+          `${API_BASE_URL_WEB}/superAdmins/${userId}/`,
           {
             method: 'GET',
             headers:{
@@ -116,7 +116,7 @@ import {API_BASE_URL_WEB} from "../../constants/data";
 
           const responseRestaurantAdmin = yield call(
             fetch,
-            `${API_BASE_URL}/restaurantAdmins/${userId}/`,
+            `${API_BASE_URL_WEB}/restaurantAdmins/${userId}/`,
             {
               method: 'GET',
               headers:{
