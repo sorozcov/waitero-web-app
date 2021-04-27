@@ -12,8 +12,11 @@ import Users from '../UsersList';
 import RestaurantDetails from '../Restaurants/RestaurantDetails';
 import LoginScreen from '../Login';
 import HomeScreensSuperAdmin from '../HomeScreenSuperAdmin';
+import Products from "../Products";
+import NewProductForm from "../NewProductForm";
 import TokenRefresh from '../TokenRefresh';
 import PrivateRoute from '../Routes/PrivateRoute';
+import Menus from "../Menus";
 
 const { store } = configureStore();
 
@@ -30,7 +33,7 @@ const  App = () => {
 				setIsAuthenticated(true);
 		  	} else {
 				setIsAuthenticated(false);
-			} 
+			}
 		} catch (error) {
 		 	console.log(error);
 		}
@@ -43,27 +46,30 @@ const  App = () => {
 		<>
 			<Provider store={store}>
 				<Router history={history} >
-					<Route exact path="/" render={() => { 
-						var initialPage ='/login';
-						if(isAuthenticated)
-							initialPage ='/home_screen_super_admin';						
+					<Route exact path="/" render={() => {
+						let initialPage ='/login';
+						if(isAuthenticated){
+							initialPage ='/home_screen_super_admin';
+						}
 						return(
-						
 						<Redirect to={initialPage}/>
 					)}}/>
-					
+
 						<Route  exact path='/login' component = { LoginScreen } />
 
 						{/* Solo si esta autenticado podrá acceder a las siguientes partes de la aplicación */}
 						<PrivateRoute exact path = '/restaurants' component = { Restaurants } route={2} />
-						<PrivateRoute exact path = '/restaurants/:restaurantId' component = { RestaurantDetails } route={2} />				
+						<PrivateRoute exact path = '/restaurants/:restaurantId' component = { RestaurantDetails } route={2} />
 						<PrivateRoute exact path='/home_screen_super_admin' component = { HomeScreensSuperAdmin } route={1} />
 						<PrivateRoute exact path = '/users' component = { Users } route={3} />
+						<PrivateRoute exact path='/products' component = { Products } />
+						<PrivateRoute exact path='/add_product' component = { NewProductForm } />
+						<PrivateRoute exact path='/menus' component={Menus}/>
 				</Router>
 				{/* Actualiza el token solo si esta autenticado */}
 				<TokenRefresh reviewTime={10000} />
 			</Provider>
-			
+
 		</>
 	);
 }

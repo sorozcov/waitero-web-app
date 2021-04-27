@@ -13,11 +13,14 @@ import {
 import * as selectors from '../reducers';
 import * as actions from '../actions/auth';
 import * as types from '../types/auth';
-  
+import * as constants from '../../constants/data';
+
 import API_BASE_URL from './settings/apibaseurl';
-import TOKEN_LIFE_TIME from './settings/tokenLifeTime';  
+import TOKEN_LIFE_TIME from './settings/tokenLifeTime';
+import {API_BASE_URL_WEB} from "../../constants/data";
 
   function* login(action) {
+    console.log('login')
     try {
       const response = yield call(
         fetch,
@@ -30,14 +33,17 @@ import TOKEN_LIFE_TIME from './settings/tokenLifeTime';
           },
         },
       );
-      
       if (response.status <= 300) {
+
+        console.log(response)
         const { token } = yield response.json();
         //Se guarda el persisted storage////////
         yield localStorage.setItem('auth', token);
         ////////////////////////////////////////
         yield put(actions.completeLogin(token));
         yield put(actions.authenticationUserInformationStarted());
+
+        console.log('logged in')
       } else {
         yield put(actions.failLogin('El nombre de usuario y contraseña introducidos no coinciden con nuestros registros. Revísalos e inténtalo de nuevo.'));
       }
@@ -80,14 +86,14 @@ import TOKEN_LIFE_TIME from './settings/tokenLifeTime';
             },
           }
         );
-      
-      
+
+
         if (responseSuperAdmin.status <= 300) {
           const jsonResultUser = yield responseSuperAdmin.json();
           yield put(actions.authenticationUserInformationCompleted(jsonResultUser));
-          
+
         } else {
-          
+
           const responseRestaurantAdmin = yield call(
             fetch,
             `${API_BASE_URL}/restaurantAdmins/${userId}/`,
@@ -99,12 +105,12 @@ import TOKEN_LIFE_TIME from './settings/tokenLifeTime';
               },
             }
           );
-        
-        
+
+
           if (responseRestaurantAdmin.status <= 300) {
             const jsonResultUser = yield responseRestaurantAdmin.json();
             yield put(actions.authenticationUserInformationCompleted(jsonResultUser));
-            
+
           } else {
             //Se elimina el persisted storage///////
             yield localStorage.removeItem('auth');
@@ -134,6 +140,7 @@ import TOKEN_LIFE_TIME from './settings/tokenLifeTime';
 function* refreshToken(action) {
   const expiration = yield select(selectors.getAuthExpiration);
   const now =  parseInt(new Date().getTime() / 1000);
+  console.log(expiration - now, (TOKEN_LIFE_TIME/2))
   if (expiration - now < (TOKEN_LIFE_TIME/2)) {
     try {
       const token = yield select(selectors.getAuthToken);
@@ -171,6 +178,7 @@ function* refreshToken(action) {
         //yield call(Alert.alert,titleError,errorMessage,alertButtons)   
       }
     } catch (error) {
+      console.log('error', error)
       yield localStorage.removeItem('auth');
       yield put(actions.logout());
       yield put(actions.failTokenRefresh('Falló la conexión'));
