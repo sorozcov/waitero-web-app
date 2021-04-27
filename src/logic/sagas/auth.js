@@ -24,7 +24,7 @@ import {API_BASE_URL_WEB} from "../../constants/data";
     try {
       const response = yield call(
         fetch,
-        `${API_BASE_URL_WEB}/token-auth/`,
+        `${API_BASE_URL}/token-auth/`,
         {
           method: 'POST',
           body: JSON.stringify(action.payload),
@@ -33,14 +33,15 @@ import {API_BASE_URL_WEB} from "../../constants/data";
           },
         },
       );
-      console.log(response.status)
       if (response.status <= 300) {
+
+        console.log(response)
         const { token } = yield response.json();
         //Se guarda el persisted storage////////
         yield localStorage.setItem('auth', token);
         ////////////////////////////////////////
         yield put(actions.completeLogin(token));
-        //yield put(actions.authenticationUserInformationStarted());
+        yield put(actions.authenticationUserInformationStarted());
 
         console.log('logged in')
       } else {
@@ -97,7 +98,7 @@ import {API_BASE_URL_WEB} from "../../constants/data";
         
         const responseSuperAdmin = yield call(
           fetch,
-          `${API_BASE_URL_WEB}/superAdmins/${userId}/`,
+          `${API_BASE_URL}/superAdmins/${userId}/`,
           {
             method: 'GET',
             headers:{
@@ -116,7 +117,7 @@ import {API_BASE_URL_WEB} from "../../constants/data";
 
           const responseRestaurantAdmin = yield call(
             fetch,
-            `${API_BASE_URL_WEB}/restaurantAdmins/${userId}/`,
+            `${API_BASE_URL}/restaurantAdmins/${userId}/`,
             {
               method: 'GET',
               headers:{
@@ -166,7 +167,7 @@ function* refreshToken(action) {
       const token = yield select(selectors.getAuthToken);
       const response = yield call(
         fetch,
-        `${API_BASE_URL_WEB}/token-refresh/`,
+        `${API_BASE_URL}/token-refresh/`,
         {
           method: 'POST',
           body: JSON.stringify({ token }),
