@@ -1,7 +1,6 @@
 import React, { Fragment, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import Navbar from '../Navbar';
 import './styles.css';
 import { restaurants } from '../../constants/data';
 
@@ -11,14 +10,13 @@ const Restaurants = () => {
 
     return (
         <Fragment>
-            <Navbar route={2}/>
             
-            <div class = 'px-8 py-8'>
-                <h1 class = 'text-5xl font-bold'>RESTAURANTES</h1>
+            <div className= 'px-8 py-8  pt-20'>
+                <h1 className= 'text-5xl font-bold'>RESTAURANTES</h1>
                 <hr className = "divider" />
             </div>
 
-            <div class="min-w-screen flex items-right justify-right font-sans overflow-hidden my-16">
+            <div className="min-w-screen flex items-right justify-right font-sans overflow-hidden my-16">
                 <button
                     className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 mx-12"
                     type="button"
@@ -28,20 +26,20 @@ const Restaurants = () => {
                 </button>
             </div>
 
-            <div class = 'grid grid-cols-4 gap-4 px-8'>
+            <div className= 'grid grid-cols-4 gap-4 px-8'>
                 {
                     restaurants.map( restaurant => 
-                        <div class="flex flex-col justify-between w-40 sm:w-96 h-64 bg-center text-gray-800 shadow-md overflow-hidden cursor-pointer" style={{ backgroundImage:`url(${restaurant.food})`}} onClick = { () => history.push(`/restaurants/${restaurant.id}`)}>
-                            <div class="flex justify-between items-center ml-4 pr-8">
-                                {/* <div class="bg-red-600 text-white bg-opacity-95 shadow px-2 py-1 flex items-center font-bold text-xs rounded">
+                        <div className="flex flex-col justify-between w-40 sm:w-96 h-64 bg-center text-gray-800 shadow-md overflow-hidden cursor-pointer" style={{ backgroundImage:`url(${restaurant.food})`}} onClick = { () => history.push(`/restaurants/${restaurant.id}`)}>
+                            <div className="flex justify-between items-center ml-4 pr-8">
+                                {/* <div className="bg-red-600 text-white bg-opacity-95 shadow px-2 py-1 flex items-center font-bold text-xs rounded">
                                     Some information
                                 </div>
-                                <div class="bg-red-600 w-10 h-12 shadow flex flex-col-reverse p-2 text-center font-bold text-white rounded-b-full">
+                                <div className="bg-red-600 w-10 h-12 shadow flex flex-col-reverse p-2 text-center font-bold text-white rounded-b-full">
                                     %
                                 </div> */}
                             </div>
-                            <div class="bg-white bg-opacity-95 shadow-md rounded-r-xl p-4 flex flex-col mr-4 mb-8">
-                                {/* <h3 class="text-xl font-bold pb-2">{restaurant.name}</h3> */}
+                            <div className="bg-white bg-opacity-95 shadow-md rounded-r-xl p-4 flex flex-col mr-4 mb-8">
+                                {/* <h3 className="text-xl font-bold pb-2">{restaurant.name}</h3> */}
                                 <img src = { restaurant.logo} alt="" style = {{maxHeight: '75px', width: 'auto'}}/>
                             </div>
                         </div>
@@ -72,24 +70,24 @@ const Restaurants = () => {
                                     </div>
                                     {/*body*/}
                                     <div className="relative p-6 flex-auto p-8">
-                                        <form class="w-full max-w-lg">
-                                            <div class="flex flex-wrap -mx-3 mb-6">
-                                                <div class="w-full px-3">
-                                                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+                                        <form className="w-full max-w-lg">
+                                            <div className="flex flex-wrap -mx-3 mb-6">
+                                                <div className="w-full px-3">
+                                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
                                                         Nombre del Restaurante
                                                     </label>
-                                                    <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-restaurant-name" placeholder="Nombre"/>
-                                                    <p class="text-gray-600 text-xs italic">Campo requerido</p>
+                                                    <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-restaurant-name" placeholder="Nombre"/>
+                                                    <p className="text-gray-600 text-xs italic">Campo requerido</p>
                                                 </div>
                                             </div>
 
-                                            <div class="flex flex-wrap -mx-3 mb-6">
-                                                <div class="w-full px-3">
-                                                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+                                            <div className="flex flex-wrap -mx-3 mb-6">
+                                                <div className="w-full px-3">
+                                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
                                                         Logo del Restaurante
                                                     </label>
-                                                    <input class="appearance-none block w-full text-gray-700 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-restaurant-name" type = "file" placeholder="Nombre"/>
-                                                    <p class="text-gray-600 text-xs italic">Campo requerido</p>
+                                                    <input className="appearance-none block w-full text-gray-700 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-restaurant-name" type = "file" placeholder="Nombre"/>
+                                                    <p className="text-gray-600 text-xs italic">Campo requerido</p>
                                                 </div>
                                             </div>
                                         </form>

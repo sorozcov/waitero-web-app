@@ -19,7 +19,7 @@ const TokenRefresh = ({ onRefresh, reviewTime = 10000, isAuthenticated }) => {
         interval = setInterval(onRefresh, reviewTime);
       else 
         clearInterval(interval);
-    },[isAuthenticated]);
+    },[onRefresh, reviewTime, isAuthenticated]);
   return null;
 };
 
@@ -30,7 +30,6 @@ export default connect(
   }),
   dispatch => ({
     onRefresh() {
-      console.log('Refresh')
       dispatch(actions.startTokenRefresh());
     },
   }),

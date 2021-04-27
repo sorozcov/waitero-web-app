@@ -1,4 +1,4 @@
-import React, { Fragment,useState } from 'react';
+import React, { useState } from 'react';
 import { history } from '../App/App.js';
 import logo from '../../assets/waitero.svg';
 import { connect } from 'react-redux';
@@ -8,12 +8,12 @@ import * as selectors from '../../logic/reducers';
 import * as actionsAuth from '../../logic/actions/auth';
 
 
-const Navbar = ({route=1, logout}) => {
+const Navbar = ({route=1, logout, user}) => {
     const [showUserSettings, setShowUserSettings] = useState(false);
     return (
         <div>
-            <nav className="bg-primary">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <nav className="bg-primary fixed w-full p-2">
+        <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center">
               <div className="flex-shrink-0">
@@ -24,7 +24,7 @@ const Navbar = ({route=1, logout}) => {
                   {/* Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" */}
                   <button className={route===1 ? "bg-secondary text-white px-3 py-2 rounded-md text-sm font-medium" : 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'} onClick = { () => history.push('/home_screen_super_admin')}>Dashboard</button>
                   <button className={route===2 ? "bg-secondary text-white px-3 py-2 rounded-md text-sm font-medium" : 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'} onClick = { () => history.push('/restaurants')}>Restaurantes</button>
-                  <button className={route===3 ? "bg-secondary text-white px-3 py-2 rounded-md text-sm font-medium" : 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'}>Usuarios</button>
+                  <button className={route===3 ? "bg-secondary text-white px-3 py-2 rounded-md text-sm font-medium" : 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'} onClick = { () => history.push('/users')}>Usuarios</button>
                   <button className={route===4 ? "bg-secondary text-white px-3 py-2 rounded-md text-sm font-medium" : 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'}>Clientes</button>
                   <button className={route===5 ? "bg-secondary text-white px-3 py-2 rounded-md text-sm font-medium" : 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'}>Reportes</button>
                   <button className={route===6 ? "bg-secondary text-white px-3 py-2 rounded-md text-sm font-medium" : 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'} onClick = { () => history.push('/products')}>Productos</button>
@@ -46,7 +46,7 @@ const Navbar = ({route=1, logout}) => {
                   <div>
                     <button type="button" onClick={()=>{setShowUserSettings(!showUserSettings)}} className="max-w-xs bg-gray-800 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-secondary focus:ring-secondary" id="user-menu" aria-expanded="false" aria-haspopup="true">
                       <span className="sr-only">Open user menu</span>
-                      <img className="h-8 w-8 rounded-full" src="https://avatar.oxro.io/avatar.svg?name=John+Smith&background=F9DC5C&color=000" alt="" />
+                      <img className="h-8 w-8 rounded-full" src={`https://avatar.oxro.io/avatar.svg?name=${user == null ? "" : user.username}&background=F9DC5C&color=000`} alt="" />
                     </button>
                   </div>
                   {/*
@@ -147,7 +147,9 @@ const Navbar = ({route=1, logout}) => {
 };
 
 export default connect(
-  undefined,
+  state => ({
+    user: selectors.getAuthUserInformation(state),  
+  }),
   dispatch => ({
     logout(history) {
       localStorage.removeItem('auth');

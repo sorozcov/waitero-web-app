@@ -14,7 +14,7 @@ import * as selectors from '../reducers';
 import * as actions from '../actions/auth';
 import * as types from '../types/auth';
 import * as constants from '../../constants/data';
-  
+
 import API_BASE_URL from './settings/apibaseurl';
 import TOKEN_LIFE_TIME from './settings/tokenLifeTime';
 import {API_BASE_URL_WEB} from "../../constants/data";
@@ -36,7 +36,7 @@ import {API_BASE_URL_WEB} from "../../constants/data";
       if (response.status <= 300) {
         const { token } = yield response.json();
         //Se guarda el persisted storage////////
-        yield localStorage.setItem('auth', JSON.stringify(token));
+        yield localStorage.setItem('auth', token);
         ////////////////////////////////////////
         yield put(actions.completeLogin(token));
         yield put(actions.authenticationUserInformationStarted());
@@ -95,9 +95,9 @@ import {API_BASE_URL_WEB} from "../../constants/data";
        
         const token = yield select(selectors.getAuthToken);
         
-        const response = yield call(
+        const responseSuperAdmin = yield call(
           fetch,
-          `${API_BASE_URL_WEB}/restaurantAdmins/${userId}/`,
+          `${API_BASE_URL}/superAdmins/${userId}/`,
           {
             method: 'GET',
             headers:{
@@ -106,19 +106,44 @@ import {API_BASE_URL_WEB} from "../../constants/data";
             },
           }
         );
-      
-      
-        if (response.status <= 300) {
-          const jsonResultUser = yield response.json();
+
+
+        if (responseSuperAdmin.status <= 300) {
+          const jsonResultUser = yield responseSuperAdmin.json();
           yield put(actions.authenticationUserInformationCompleted(jsonResultUser));
-          
+
         } else {
-          console.log('error')
+
+          const responseRestaurantAdmin = yield call(
+            fetch,
+            `${API_BASE_URL}/restaurantAdmins/${userId}/`,
+            {
+              method: 'GET',
+              headers:{
+                'Content-Type': 'application/json',
+                'Authorization': `JWT ${token}`,
+              },
+            }
+          );
+
+
+          if (responseRestaurantAdmin.status <= 300) {
+            const jsonResultUser = yield responseRestaurantAdmin.json();
+            yield put(actions.authenticationUserInformationCompleted(jsonResultUser));
+
+          } else {
+            //Se elimina el persisted storage///////
+            yield localStorage.removeItem('auth');
+            ////////////////////////////////////////
+          }
+
         }
       }
     } catch (error) {
       console.log(error);
+      //Se elimina el persisted storage///////
       yield localStorage.removeItem('auth');
+      ////////////////////////////////////////
       yield put(actions.logout());
       yield put(actions.failTokenRefresh('Falló la conexión'));    
     }
@@ -154,8 +179,13 @@ function* refreshToken(action) {
       if (response.status === 200) {
         const jResponse = yield response.json();
         yield put(actions.completeTokenRefresh(jResponse.token));
+        //Se guarda el persisted storage////////
+        yield localStorage.setItem('auth', jResponse.token);
+        ////////////////////////////////////////
       } else {
+        //Se elimina el persisted storage///////
         yield localStorage.removeItem('auth');
+        ////////////////////////////////////////
         yield put(actions.logout());
         const { non_field_errors } = yield response.json();
         yield put(actions.failTokenRefresh(non_field_errors[0]));
