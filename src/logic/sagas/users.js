@@ -65,14 +65,24 @@ function* addUser(action) {
 
         if (isAuth) {
             const token = yield select(selectors.getAuthToken);
-            const {content,user} = action.payload;
-            
+            const user = action.payload;
+
+            var endPoint = '';
+            if(user.userType === 1)
+                endPoint = 'superAdmins';
+            else if(user.userType === 2)
+                endPoint = 'restaurantAdmins';
+            else if(user.userType === 3)
+                endPoint = 'branchAdmins';
+            else if(user.userType === 4)
+                endPoint = 'branchEmployees';
+
             const response = yield call(
                 fetch,
-                `${API_BASE_URL}/users/`,
+                `${API_BASE_URL}/${endPoint}/`,
                 {
                 method: 'POST',
-                body: JSON.stringify({content,user}),
+                body: JSON.stringify(user),
                 headers:{
                     'Content-Type': 'application/json',
                     'Authorization': `JWT ${token}`,
@@ -106,14 +116,23 @@ function* editUser(action) {
 
         if (isAuth) {
             const token = yield select(selectors.getAuthToken);
-            const {content,user} = action.payload;
-            
+            const user = action.payload;
+            var endPoint = '';
+            if(user.oldUserType === 1)
+                endPoint = 'superAdmins';
+            else if(user.oldUserType === 2)
+                endPoint = 'restaurantAdmins';
+            else if(user.oldUserType === 3)
+                endPoint = 'branchAdmins';
+            else if(user.oldUserType === 4)
+                endPoint = 'branchEmployees';
+
             const response = yield call(
                 fetch,
-                `${API_BASE_URL}/users/`,
+                `${API_BASE_URL}/${endPoint}/${user.id}`,
                 {
-                method: 'POST',
-                body: JSON.stringify({content,user}),
+                method: 'PATCH',
+                body: JSON.stringify(user),
                 headers:{
                     'Content-Type': 'application/json',
                     'Authorization': `JWT ${token}`,
@@ -123,13 +142,14 @@ function* editUser(action) {
 
             if (response.status <= 300) {
                 const user = yield response.json();
+                console.log(user)
                 yield put(actions.completeEditingUser(user));
             } else {
-                yield put(actions.failEditingUser('Falló al editar el usuario'));
+                yield put(actions.failEditingUser(1, 'Falló al editar el usuario'));
             }
         }
     } catch (error) {
-        yield put(actions.failEditingUser('Falló al editar el usuario'));
+        yield put(actions.failEditingUser(1, 'Falló al editar el usuario'));
     }
 }
 

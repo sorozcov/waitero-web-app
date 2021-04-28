@@ -20,7 +20,6 @@ import TOKEN_LIFE_TIME from './settings/tokenLifeTime';
 import {API_BASE_URL_WEB} from "../../constants/data";
 
   function* login(action) {
-    console.log('login')
     try {
       const response = yield call(
         fetch,
@@ -42,8 +41,6 @@ import {API_BASE_URL_WEB} from "../../constants/data";
         ////////////////////////////////////////
         yield put(actions.completeLogin(token));
         yield put(actions.authenticationUserInformationStarted());
-
-        console.log('logged in')
       } else {
         yield put(actions.failLogin('El nombre de usuario y contraseña introducidos no coinciden con nuestros registros. Revísalos e inténtalo de nuevo.'));
       }
