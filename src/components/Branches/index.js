@@ -1,11 +1,13 @@
 import React, { Fragment, useState } from 'react';
 import { connect } from 'react-redux';
 
-import * as actions from '../../logic/actions/branches';
-import * as selectors from '../../logic/reducers';
-import BranchProducts from './BranchProducts';
+import Offers from '../Offers';
 import BranchCombos from './BranchCombos';
-import BranchPromotions from './BranchPromotions';
+import BranchProducts from './BranchProducts';
+// import BranchPromotions from './BranchPromotions';
+
+import * as selectors from '../../logic/reducers';
+//import * as actions from '../../logic/actions/branches';
 
 const Branches = ({
     branch,
@@ -82,7 +84,7 @@ const Branches = ({
 
                 {
                     selectedTab === 2 && (
-                        <BranchPromotions />
+                        <Offers branch={branch}/>
                     )
                 }
             </div>

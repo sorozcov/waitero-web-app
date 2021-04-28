@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState, useRef } from 'react';
 
-import { XIcon } from '@heroicons/react/outline';
+import { XIcon, ExclamationIcon } from '@heroicons/react/outline';
 import { Dialog, Transition } from '@headlessui/react';
 
 import Select from '../Select';
@@ -11,16 +11,19 @@ import './styles.css';
 import * as selectors from '../../logic/reducers';
 import * as actionsOffers from '../../logic/actions/offers';
 
-const Offers = ({ offers, startAddingOffer, fetchOffers, startEditingOffer, startRemovingOffer }) => {
+const Offers = ({ branch, offers, startAddingOffer, fetchOffers, startEditingOffer, startRemovingOffer }) => {
     // fetch values for table
     useEffect(fetchOffers, [fetchOffers]);
-    
+
+    const cancelButtonRef = useRef()
+
     // show add offer modal
     const [showModal, setShowModal] = useState(false)
+    const [open, setOpen] = useState(false)
     
     // form values
     const [nombre, setNombre] = useState("")
-    const [percentage, setPercentage] = useState(0)
+    const [percentage, setPercentage] = useState(null)
     const [init, setInit] = useState("")
     const [end, setEnd] = useState("")
     const [product, setProduct] = useState(1)
@@ -30,7 +33,7 @@ const Offers = ({ offers, startAddingOffer, fetchOffers, startEditingOffer, star
     const disableButton = () => {
         if(activeOffer)
         {
-            if ((nombre === activeOffer.name || nombre === "") && (percentage === activeOffer.percentage || percentage === "") && (init === "" || init === activeOffer.start_date) && (end === "" || end === activeOffer.end_date))
+            if ((activeOffer.product === product) && (nombre === activeOffer.name || nombre === "") && (percentage === activeOffer.percentage || percentage === "") && (init === "" || init === activeOffer.start_date) && (end === "" || end === activeOffer.end_date))
             {
                 return true;
             }
@@ -60,7 +63,8 @@ const Offers = ({ offers, startAddingOffer, fetchOffers, startEditingOffer, star
             percentage: percentage,
             start_date: init,
             end_date: end,
-            product: product
+            product: product,
+            branch: branch.id,
         };
 
         startAddingOffer(offer);
@@ -114,7 +118,7 @@ const Offers = ({ offers, startAddingOffer, fetchOffers, startEditingOffer, star
                 <div className="w-11/12 mx-auto py-6 sm:px-6 lg:px-8">
                     <div className="flex justify-end">
                         <button className="bg-transparent hover:bg-blue-500 mb-5 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded" onClick={() => setShowModal(true)}>
-                            Nueva promoción
+                            Nueva oferta
                         </button>
                     </div>
                     <div className="flex justify-center">
@@ -187,7 +191,7 @@ const Offers = ({ offers, startAddingOffer, fetchOffers, startEditingOffer, star
                                                 <button
                                                     className="bg-gray-400 text-white active:bg-red-600 hover:bg-red-500 font-bold uppercase text-sm px-2 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                                     type="button"
-                                                    onClick={() => {removeOffer(offer.id)}}
+                                                    onClick={() => {setOpen(true); setActiveOffer(offer)}}
                                                 >
                                                     Quitar
                                                 </button>
@@ -323,6 +327,82 @@ const Offers = ({ offers, startAddingOffer, fetchOffers, startEditingOffer, star
                     </div>
                 </Dialog>
                 </Transition.Root>
+                <Transition.Root show={open} as={Fragment}>
+                    <Dialog
+                        as="div"
+                        static
+                        className="fixed z-10 inset-0 overflow-y-auto"
+                        initialFocus={cancelButtonRef}
+                        open={open}
+                        onClose={setOpen}
+                    >
+                        <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                        <Transition.Child
+                            as={Fragment}
+                            enter="ease-out duration-300"
+                            enterFrom="opacity-0"
+                            enterTo="opacity-100"
+                            leave="ease-in duration-200"
+                            leaveFrom="opacity-100"
+                            leaveTo="opacity-0"
+                        >
+                            <Dialog.Overlay className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+                        </Transition.Child>
+
+                        {/* This element is to trick the browser into centering the modal contents. */}
+                        <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
+                            &#8203;
+                        </span>
+                        <Transition.Child
+                            as={Fragment}
+                            enter="ease-out duration-300"
+                            enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                            enterTo="opacity-100 translate-y-0 sm:scale-100"
+                            leave="ease-in duration-200"
+                            leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+                            leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                        >
+                            <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                            <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                                <div className="sm:flex sm:items-start">
+                                <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+                                    <ExclamationIcon className="h-6 w-6 text-red-600" aria-hidden="true" />
+                                </div>
+                                <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                                    <Dialog.Title as="h3" className="text-lg leading-6 font-medium text-gray-900">
+                                    Eliminar oferta
+                                    </Dialog.Title>
+                                    <div className="mt-2">
+                                    <p className="text-sm text-gray-500">
+                                        ¿Está seguro que desea eliminar la oferta? Toda la información se eliminará permanentemente.
+                                        Esta acción no se puede deshacer.
+                                    </p>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                            <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                                <button
+                                type="button"
+                                className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
+                                onClick={() => {setOpen(false); removeOffer(activeOffer.id); setActiveOffer(null)}}
+                                >
+                                Eliminar
+                                </button>
+                                <button
+                                type="button"
+                                className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                                onClick={() => setOpen(false)}
+                                ref={cancelButtonRef}
+                                >
+                                Cancelar
+                                </button>
+                            </div>
+                            </div>
+                        </Transition.Child>
+                        </div>
+                    </Dialog>
+                    </Transition.Root>
         </Fragment>
     );
 };

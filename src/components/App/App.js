@@ -4,15 +4,14 @@ import { configureStore } from '../../store';
 import React, { useState, useEffect } from 'react';
 import { Router, Route, Redirect } from 'react-router';
 
-import Users from '../UsersList';
 import Menus from "../Menus";
 import Offers from '../Offers';
+import Users from '../UsersList';
 import Branches from "../Branches";
 import Products from "../Products";
-import NewProductForm from "../NewProductForm";
-import NewMenuForm from "../NewMenuForm";
 import LoginScreen from '../Login';
 import Restaurants from '../Restaurants';
+import NewMenuForm from "../NewMenuForm";
 import TokenRefresh from '../TokenRefresh';
 import NewProductForm from "../NewProductForm";
 import PrivateRoute from '../Routes/PrivateRoute';
