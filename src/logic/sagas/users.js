@@ -118,13 +118,13 @@ function* editUser(action) {
             const token = yield select(selectors.getAuthToken);
             const user = action.payload;
             var endPoint = '';
-            if(user.oldUserType === 1)
+            if(user.userType === 1)
                 endPoint = 'superAdmins';
-            else if(user.oldUserType === 2)
+            else if(user.userType === 2)
                 endPoint = 'restaurantAdmins';
-            else if(user.oldUserType === 3)
+            else if(user.userType === 3)
                 endPoint = 'branchAdmins';
-            else if(user.oldUserType === 4)
+            else if(user.userType === 4)
                 endPoint = 'branchEmployees';
 
             const response = yield call(
@@ -142,7 +142,6 @@ function* editUser(action) {
 
             if (response.status <= 300) {
                 const user = yield response.json();
-                console.log(user)
                 yield put(actions.completeEditingUser(user));
             } else {
                 yield put(actions.failEditingUser(1, 'Falló al editar el usuario'));

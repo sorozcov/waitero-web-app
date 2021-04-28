@@ -266,8 +266,7 @@ export default connect(
       },
       editUser(values, setOpen) {
         if(values.username && values.password && values.first_name && values.last_name && values.email && values.phoneNumber && values.userType) {
-            console.log(values)
-            //dispatch(actionsUsers.startEditingUser({...values, password: undefined}));
+            dispatch(actionsUsers.startEditingUser({...values, password: undefined}));
             setOpen(false);
         }
       },
