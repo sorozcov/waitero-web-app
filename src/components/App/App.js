@@ -14,7 +14,7 @@ import NewMenuForm from "../NewMenuForm";
 import LoginScreen from '../Login';
 import Restaurants from '../Restaurants';
 import TokenRefresh from '../TokenRefresh';
-import NewProductForm from "../NewProductForm";
+// import NewProductForm from "../NewProductForm";
 import PrivateRoute from '../Routes/PrivateRoute';
 import HomeScreensSuperAdmin from '../HomeScreenSuperAdmin';
 import RestaurantDetails from '../Restaurants/RestaurantDetails';
