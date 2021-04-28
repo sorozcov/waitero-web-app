@@ -9,6 +9,8 @@ import Menus from "../Menus";
 import Offers from '../Offers';
 import Branches from "../Branches";
 import Products from "../Products";
+import NewProductForm from "../NewProductForm";
+import NewMenuForm from "../NewMenuForm";
 import LoginScreen from '../Login';
 import Restaurants from '../Restaurants';
 import TokenRefresh from '../TokenRefresh';
@@ -68,6 +70,7 @@ const  App = () => {
 						<PrivateRoute exact path = '/promos' component = { Offers } route={4} />
 						<PrivateRoute exact path='/products' component = { Products } />
 						<PrivateRoute exact path='/add_product' component = { NewProductForm } />
+						<PrivateRoute exact path='/add_menu' component = { NewMenuForm } />
 						<PrivateRoute exact path='/menus' component={Menus}/>
 				</Router>
 				{/* Actualiza el token solo si esta autenticado */}

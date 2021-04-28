@@ -12,16 +12,12 @@ import {v4 as uuidv4} from 'uuid'
 const NewProductForm = ({handleSubmit, saveProduct}) => {
     return (
         <Fragment>
-            <Navbar route={7}/>
-            <div className='px-8 py-8'>
-                <h1 className='text-5xl font-bold'>AGREGAR PRODUCTO</h1>
-                <hr className="divider"/>
-            </div>
             <div className="flex justify-center">
-                <form className="space-y-6 w-1/2" onSubmit={handleSubmit(saveProduct)}>
+                <form className="space-y-6 w-full">
                     <Field name={'productName'} component={TextInput} label={'Nombre del producto'} type={"text"}/>
                     <Field name={'productPrice'} component={TextInput} label={'Precio'} type={"text"}/>
-                    <button type="submit" className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary">
+                    <button formAction="submit" className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary"
+                        onClick={handleSubmit(saveProduct)}>
                         GUARDAR
                         <span className="flex items-center pl-1">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -49,5 +45,5 @@ export default connect(
         }
     })
 )(reduxForm({
-    form:'newProduct',
+    form:'newProduct'
 })(NewProductForm))
