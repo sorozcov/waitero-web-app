@@ -3,13 +3,16 @@ import { watchLoginStarted,watchUserInformationRequest, watchRefreshTokenStarted
 import { watchAddUsersStarted, watchDeleteUserStarted, watchEditUsersStarted, watchUsersFetchStarted } from './users';
 import { watchOffersFetchStarted, watchAddOffer, watchEditOfferStarted, watchDeleteOfferStarted } from './offers';
 
+import {watchProductsFetch, watchAddProduct} from './products'
+import {watchMenusFetch, watchAddMenu} from "./menus";
+import { watchFetchRestaurants, watchAddRestaurant } from './restaurants';
 
 function* mainSaga(){
   yield all([
     fork(watchLoginStarted),
     fork(watchUserInformationRequest),
     fork(watchRefreshTokenStarted),
-    
+
     fork(watchUsersFetchStarted),
     fork(watchAddUsersStarted),
     fork(watchEditUsersStarted),
@@ -19,6 +22,17 @@ function* mainSaga(){
     fork(watchAddOffer),
     fork(watchEditOfferStarted),
     fork(watchDeleteOfferStarted),
+
+    fork(watchRefreshTokenStarted),
+    
+    fork(watchProductsFetch),
+    fork(watchAddProduct),
+    
+    fork(watchMenusFetch),
+    fork(watchAddMenu),
+
+    fork(watchFetchRestaurants),
+    fork(watchAddRestaurant),
   ]);
 };
 

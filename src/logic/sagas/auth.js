@@ -13,9 +13,11 @@ import {
 import * as selectors from '../reducers';
 import * as actions from '../actions/auth';
 import * as types from '../types/auth';
-  
+import * as constants from '../../constants/data';
+
 import API_BASE_URL from './settings/apibaseurl';
-import TOKEN_LIFE_TIME from './settings/tokenLifeTime';  
+import TOKEN_LIFE_TIME from './settings/tokenLifeTime';
+import {API_BASE_URL_WEB} from "../../constants/data";
 
   function* login(action) {
     try {
@@ -30,8 +32,9 @@ import TOKEN_LIFE_TIME from './settings/tokenLifeTime';
           },
         },
       );
-      
       if (response.status <= 300) {
+
+        console.log(response)
         const { token } = yield response.json();
         //Se guarda el persisted storage////////
         yield localStorage.setItem('auth', token);
@@ -39,34 +42,10 @@ import TOKEN_LIFE_TIME from './settings/tokenLifeTime';
         yield put(actions.completeLogin(token));
         yield put(actions.authenticationUserInformationStarted());
       } else {
-        
-        
-       
         yield put(actions.failLogin('El nombre de usuario y contraseña introducidos no coinciden con nuestros registros. Revísalos e inténtalo de nuevo.'));
-        yield delay(200)
-        // const alertButtons =[
-        //     {text: 'Aceptar', style:'default'},
-        // ]
-        // const titleError ="Inténtalo de nuevo"
-        // const errorMessage='El nombre de usuario y contraseña introducidos no coinciden con nuestros registros. Revísalos e inténtalo de nuevo.';
-    
-        //yield call(Alert.alert,titleError,errorMessage,alertButtons)
-     
-        
-        
       }
     } catch (error) {
-      
       yield put(actions.failLogin('Falló la autentitación.'));
-      yield delay(200)
-      // const alertButtons =[
-      //       {text: 'Aceptar', style:'default'},
-      //   ]
-      // const titleError ="Inténtalo de nuevo"
-      // const errorMessage="Falló la conexión con el servidor."
-        
-    
-      //yield call(Alert.alert,titleError,errorMessage,alertButtons)
     }
   }
   
@@ -104,14 +83,14 @@ import TOKEN_LIFE_TIME from './settings/tokenLifeTime';
             },
           }
         );
-      
-      
+
+
         if (responseSuperAdmin.status <= 300) {
           const jsonResultUser = yield responseSuperAdmin.json();
           yield put(actions.authenticationUserInformationCompleted(jsonResultUser));
-          
+
         } else {
-          
+
           const responseRestaurantAdmin = yield call(
             fetch,
             `${API_BASE_URL}/restaurantAdmins/${userId}/`,
@@ -123,22 +102,25 @@ import TOKEN_LIFE_TIME from './settings/tokenLifeTime';
               },
             }
           );
-        
-        
+
+
           if (responseRestaurantAdmin.status <= 300) {
             const jsonResultUser = yield responseRestaurantAdmin.json();
             yield put(actions.authenticationUserInformationCompleted(jsonResultUser));
-            
+
           } else {
-            //Se elimina el token del local storage
-            localStorage.removeItem('auth');
+            //Se elimina el persisted storage///////
+            yield localStorage.removeItem('auth');
+            ////////////////////////////////////////
           }
 
         }
       }
     } catch (error) {
       console.log(error);
+      //Se elimina el persisted storage///////
       yield localStorage.removeItem('auth');
+      ////////////////////////////////////////
       yield put(actions.logout());
       yield put(actions.failTokenRefresh('Falló la conexión'));    
     }
@@ -155,6 +137,7 @@ import TOKEN_LIFE_TIME from './settings/tokenLifeTime';
 function* refreshToken(action) {
   const expiration = yield select(selectors.getAuthExpiration);
   const now =  parseInt(new Date().getTime() / 1000);
+  console.log(expiration - now, (TOKEN_LIFE_TIME/2))
   if (expiration - now < (TOKEN_LIFE_TIME/2)) {
     try {
       const token = yield select(selectors.getAuthToken);
@@ -173,8 +156,13 @@ function* refreshToken(action) {
       if (response.status === 200) {
         const jResponse = yield response.json();
         yield put(actions.completeTokenRefresh(jResponse.token));
+        //Se guarda el persisted storage////////
+        yield localStorage.setItem('auth', jResponse.token);
+        ////////////////////////////////////////
       } else {
+        //Se elimina el persisted storage///////
         yield localStorage.removeItem('auth');
+        ////////////////////////////////////////
         yield put(actions.logout());
         const { non_field_errors } = yield response.json();
         yield put(actions.failTokenRefresh(non_field_errors[0]));
@@ -187,6 +175,7 @@ function* refreshToken(action) {
         //yield call(Alert.alert,titleError,errorMessage,alertButtons)   
       }
     } catch (error) {
+      console.log('error', error)
       yield localStorage.removeItem('auth');
       yield put(actions.logout());
       yield put(actions.failTokenRefresh('Falló la conexión'));

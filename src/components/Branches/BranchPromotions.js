@@ -1,18 +1,12 @@
-import React, { Fragment, useEffect } from 'react';
-import { connect } from 'react-redux';
+import React, { Fragment } from 'react';
 
-import './styles.css';
-import * as selectors from '../../logic/reducers';
-import * as actionsUsers from '../../logic/actions/users';
-
-const Users = ({ users, fetchUsers }) => {
-    useEffect(fetchUsers,[fetchUsers]);
+const BranchPromotions = () => {
     return (
         <Fragment>
-            <header className="bg-white shadow">
-                <div className="max-w-full mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <header className="bg-white shadow pt-20">
+                <div className="w-11/12 mx-auto py-6 px-4 sm:px-6 lg:px-8">
                 <h1 className="text-3xl font-bold text-gray-900">
-                    Usuarios
+                    Ofertas
                 </h1>
                 </div>
             </header>
@@ -20,7 +14,7 @@ const Users = ({ users, fetchUsers }) => {
                 <div className="w-11/12 mx-auto py-6 sm:px-6 lg:px-8">
                     <div className="flex justify-end">
                         <button className="bg-transparent hover:bg-blue-500 mb-5 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
-                            Nuevo Usuario
+                            Nueva Oferta
                         </button>
                     </div>
                     <div className="flex justify-center">
@@ -30,16 +24,16 @@ const Users = ({ users, fetchUsers }) => {
                                     <thead className="bg-gray-50">
                                         <tr>
                                         <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Usuario
+                                            Nombre
                                         </th>
                                         <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Nombre Completo
+                                            Fecha Inicio
                                         </th>
                                         <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Tipo
+                                            Fecha Final
                                         </th>
                                         <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Número de teléfono
+                                            %
                                         </th>
                                         <th scope="col" className="relative px-6 py-3">
                                             <span className="sr-only">Edit</span>
@@ -47,7 +41,7 @@ const Users = ({ users, fetchUsers }) => {
                                         </tr>
                                     </thead>
                                     <tbody className="bg-white divide-y divide-gray-200">
-                                        {users.map(user => (
+                                        {/* {users.map(user => (
                                         <tr key={user.id}>
                                             <td className="px-6 py-4 whitespace-nowrap">
                                                 <div className="flex items-center">
@@ -74,10 +68,10 @@ const Users = ({ users, fetchUsers }) => {
                                                 {user.phoneNumber}
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                <a href="#" className="text-indigo-600 hover:text-indigo-900">Editar</a>
+                                                <a href="/#" className="text-indigo-600 hover:text-indigo-900">Editar</a>
                                             </td>
                                         </tr>
-                                        ))}
+                                        ))} */}
                                     </tbody>
                                 </table>
                             </div>
@@ -89,14 +83,4 @@ const Users = ({ users, fetchUsers }) => {
     );
 };
 
-export default connect(
-    state => ({
-      isLoading: selectors.getIsAuthenticating(state),
-      users: selectors.getUsers(state),   
-    }),
-    dispatch => ({
-      fetchUsers(values) {
-        dispatch(actionsUsers.startFetchingUsers(values));
-      },
-    }),
-  )(Users);
+export default BranchPromotions;

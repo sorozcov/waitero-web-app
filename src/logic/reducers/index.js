@@ -1,16 +1,25 @@
 import { combineReducers } from 'redux';
-import { reducer as formReducer } from 'redux-form'
+import { reducer as formReducer, resetSection } from 'redux-form';
+
+import { AUTHENTICATION_IDENTITY_CLEARED } from '../types/auth';
 
 import auth, * as authSelectors from './auth';
+import menus, * as menusSelectors from './menus'
 import users, * as usersSelectors from './users';
 import offers, * as offerSelectors from './offers';
-import { AUTHENTICATION_IDENTITY_CLEARED } from '../types/auth';
+import branches, * as branchesSelectors from './branches';
+import products, * as productsSelectors from "./products";
+import restaurants , * as restauranstSelectors from './restaurants';
 
 const reducer = combineReducers({
   auth,
   users,
   offers,
   form: formReducer,
+  products,
+  menus,
+  restaurants,
+  branches
 });
 
 const rootReducer = (state, action) => {
@@ -23,7 +32,7 @@ const rootReducer = (state, action) => {
 export default rootReducer;
 
 
-//Authorization
+// AUTH
 export const getAuthToken = state => authSelectors.getAuthToken(state.auth);
 export const getIsAuthenticating = state => authSelectors.getIsAuthenticating(state.auth);
 export const getAuthenticatingError = state => authSelectors.getAuthenticatingError(state.auth);
@@ -36,7 +45,7 @@ export const getAuthUserInformation = state => authSelectors.getAuthUserInformat
 export const getIsRefreshingToken = state => authSelectors.getIsRefreshingToken(state.auth);
 export const getRefreshingError = state => authSelectors.getRefreshingError(state.auth);
 
-//Users
+// USERS
 export const getUser = (state, id) => usersSelectors.getUser(state.users, id);
 export const getUsers = state => usersSelectors.getUsers(state.users);
 export const getSelectedUser = state => usersSelectors.getSelectedUser(state.users);
@@ -47,7 +56,7 @@ export const isRemovingUsers = state => usersSelectors.isRemovingUsers(state.use
 export const getUsersError = state => usersSelectors.getUsersError(state.users);
 export const getAddStatus = state => usersSelectors.getAddStatus(state.users);
 
-//Offers
+// OFFERS
 export const getOffer = (state, id) => offerSelectors.getOffer(state.offers, id);
 export const getOffers = state => offerSelectors.getOffers(state.offers);
 export const isFetchingOffers = state => offerSelectors.isFetchingOffers(state.offers);
@@ -56,3 +65,33 @@ export const isEditingOffers = state => offerSelectors.isEditingOffers(state.off
 export const isRemovingOffers = state => offerSelectors.isRemovingOffers(state.offers);
 export const getOffersError = state => offerSelectors.getOffersError(state.offers);
 export const getOfferAddStatus = state => offerSelectors.getAddStatus(state.offers);
+export const getProductByID = (state, id) => productsSelectors.getProductByID(state.products, id);
+export const getProductOrder = (state) => productsSelectors.getProductOrder(state.products);
+export const getAllProducts = (state) => productsSelectors.getAllProducts(state.products);
+export const getSelectedProduct = (state) => productsSelectors.getSelectedProduct(state.products);
+export const getIsFetchingProducts = (state) => productsSelectors.getIsFetching(state.products);
+
+// MENUS
+export const getMenuByID = (state, id) => menusSelectors.getMenuByID(state.menus, id);
+export const getMenuOrder = (state) => menusSelectors.getMenuOrder(state.menus);
+export const getAllMenus = (state) => menusSelectors.getAllMenus(state.menus);
+export const getSelectedMenu = (state) => menusSelectors.getSelectedMenu(state.menus);
+export const getIsFetchingMenus = (state) => menusSelectors.getIsFetching(state.products);
+
+// RESTAURANTS
+export const getRestaurant = (state, id) => restauranstSelectors.getRestaurant(state.restaurants, id);
+export const getRestaurants = state => restauranstSelectors.getRestaurants(state.restaurants);
+export const getSelectedRestaurant = state => restauranstSelectors.getSelectedRestaurant(state.restaurants);
+export const getIsFetchingRestaurant = state => restauranstSelectors.getIsFetchingRestaurant(state.restaurants);
+export const getIsAddingRestaurant = state => restauranstSelectors.getIsAddingRestaurant(state.restaurants);
+export const getIsRemovingRestaurant = state => restauranstSelectors.getIsRemovingRestaurant(state.restaurants);
+export const getRestaurantsError = state => restauranstSelectors.getRestaurantsError(state.restaurants);
+
+// BRANCHES
+export const getBranch = (state, id) => branchesSelectors.getBranch(state.branches, id);
+export const getBranches = state => branchesSelectors.getBranches(state.branches);
+export const getSelectedBranch = state => branchesSelectors.getSelectedBranch(state.branches);
+export const getIsFetchingBranch = state => branchesSelectors.getIsFetchingBranch(state.branches);
+export const getIsAddingBranch = state => branchesSelectors.getIsAddingBranch(state.branches);
+export const getIsRemovingBranch = state => branchesSelectors.getIsRemovingBranch(state.branches);
+export const getBranchesError = state => branchesSelectors.getBranchesError(state.branches);

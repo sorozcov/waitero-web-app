@@ -123,6 +123,9 @@ const error = (state = null, action) => {
     case types.AUTHENTICATION_COMPLETED: {
       return null;
     }
+    case types.AUTHENTICATION_FAILED_CLEAR: {
+      return null;
+    }
     case types.AUTHENTICATION_FAILED: {
       return action.payload.error;
     } 
