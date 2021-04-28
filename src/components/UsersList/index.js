@@ -36,9 +36,10 @@ const Users = ({ users, fetchUsers, submitting, handleSubmit, createUser, editUs
             </header>
             <main>
                 <div className="w-11/12 mx-auto py-6 sm:px-6 lg:px-8">
+                
                     <div className="flex justify-end">
-                        <button onClick={() => deselectUser(setOpen)} className="bg-transparent hover:bg-primary mb-5 text-primary font-semibold hover:text-white py-2 px-4 border border-primary hover:border-transparent rounded">
-                            Nuevo Usuario
+                        <button  onClick={() => deselectUser(setOpen)} className="bg-transparent hover:bg-blue-500 mb-5 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+                        Nuevo Usuario
                         </button>
                     </div>
                     <div className="flex justify-center">
@@ -91,8 +92,23 @@ const Users = ({ users, fetchUsers, submitting, handleSubmit, createUser, editUs
                                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                                 {user.phoneNumber}
                                             </td>
-                                            <td onClick={()=> selectUser(user, setOpen)} className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                <button className="text-indigo-500 hover:text-indigo-100">Editar</button>
+                                            <td  className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                                
+
+                                                <button
+                                                    className="bg-gray-400 text-white active:bg-blue-600 hover:bg-blue-500 font-bold uppercase text-sm px-2 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                                    type="button"
+                                                    onClick={()=> selectUser(user, setOpen)}
+                                                >
+                                                    Editar
+                                                </button>
+                                                {/* <button
+                                                    className="bg-gray-400 text-white active:bg-red-600 hover:bg-red-500 font-bold uppercase text-sm px-2 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                                    type="button"
+                                                    onClick={() => {}}
+                                                >
+                                                    Quitar
+                                                </button> */}
                                             </td>
                                         </tr>
                                         ))}
@@ -227,12 +243,26 @@ const Users = ({ users, fetchUsers, submitting, handleSubmit, createUser, editUs
                                         <Field name={'last_name'} component={TextInput} label={'Apellido'} type={"text"} hasPlaceholder={false} />
                                         <Field name={'email'} component={TextInput} label={'Correo'} type={"text"} hasPlaceholder={false} />
                                         <Field name={'phoneNumber'} component={TextInput} label={'Número de teléfono'} type={"text"} hasPlaceholder={false} />
-                                        <button onClick={handleSubmit((values) => {
-                                                isNew ? createUser({userType: selected.id, ...values}, setOpen) 
-                                                : editUser(values, setOpen)
-                                            })} disabled={submitting} type="submit" className="group relative w-full flex justify-center mt-8 py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary">
-                                            {isNew ? 'Crear Usuario' : 'Editar Usuario'}
-                                        </button>    
+                                        
+                                        <div className="flex m-3 items-center justify-end p-3 rounded-b">
+                                    <button
+                                        className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                        type="button"
+                                        onClick={() => {setOpen(false); }}
+                                    >
+                                        Cancelar
+                                    </button>
+                                    <button
+                                        className={`bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150`}
+            
+                                        onClick={handleSubmit((values) => {
+                                            isNew ? createUser({userType: selected.id, ...values}, setOpen) 
+                                            : editUser(values, setOpen)
+                                        })} disabled={submitting} type="submit"
+                                    >
+                                       {isNew ? 'Crear Usuario' : 'Editar Usuario'}
+                                    </button>
+                                </div>
                                     </form>
                                 </div>
                             </div>
