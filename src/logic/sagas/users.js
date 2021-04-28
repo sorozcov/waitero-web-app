@@ -33,6 +33,8 @@ function* usersFetchStarted(action) {
               }
             );
 
+            console.log(response);
+
             if (response.status <= 300) {
                 const jsonResult = yield response.json();
                 

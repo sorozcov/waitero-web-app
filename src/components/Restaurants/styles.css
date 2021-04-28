@@ -9,6 +9,12 @@
     width: 500px;
 }
 
+.big_logo {
+    height: auto;
+    width: 50vw;
+    margin-top: 15vh;
+}
+
 .bg-card {
     width: 90vw;
 }

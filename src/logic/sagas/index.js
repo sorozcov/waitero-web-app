@@ -4,6 +4,7 @@ import { watchAddUsersStarted, watchDeleteUserStarted, watchEditUsersStarted, wa
 
 import {watchProductsFetch, watchAddProduct} from './products'
 import {watchMenusFetch, watchAddMenu} from "./menus";
+import { watchFetchRestaurants, watchAddRestaurant } from './restaurants';
 
 function* mainSaga(){
   yield all([
@@ -19,7 +20,10 @@ function* mainSaga(){
     fork(watchProductsFetch),
     fork(watchAddProduct),
     fork(watchMenusFetch),
-    fork(watchAddMenu)
+    fork(watchAddMenu),
+
+    fork(watchFetchRestaurants),
+    fork(watchAddRestaurant)
   ]);
 };
 

@@ -1,18 +1,22 @@
 import { combineReducers } from 'redux';
-import { reducer as formReducer } from 'redux-form'
+import { reducer as formReducer, resetSection } from 'redux-form'
 
 import auth, * as authSelectors from './auth';
 import users, * as usersSelectors from './users';
 import { AUTHENTICATION_IDENTITY_CLEARED } from '../types/auth';
 import products, * as productsSelectors from "./products";
 import menus, * as menusSelectors from './menus'
+import restaurants , * as restauranstSelectors from './restaurants';
+import branches, * as branchesSelectors from './branches';
 
 const reducer = combineReducers({
   auth,
   users,
   form: formReducer,
   products,
-  menus
+  menus,
+  restaurants,
+  branches
 });
 
 const rootReducer = (state, action) => {
@@ -59,3 +63,21 @@ export const getMenuOrder = (state) => menusSelectors.getMenuOrder(state.menus);
 export const getAllMenus = (state) => menusSelectors.getAllMenus(state.menus);
 export const getSelectedMenu = (state) => menusSelectors.getSelectedMenu(state.menus);
 export const getIsFetchingMenus = (state) => menusSelectors.getIsFetching(state.products);
+
+//  RESTAURANTS
+export const getRestaurant = (state, id) => restauranstSelectors.getRestaurant(state.restaurants, id);
+export const getRestaurants = state => restauranstSelectors.getRestaurants(state.restaurants);
+export const getSelectedRestaurant = state => restauranstSelectors.getSelectedRestaurant(state.restaurants);
+export const getIsFetchingRestaurant = state => restauranstSelectors.getIsFetchingRestaurant(state.restaurants);
+export const getIsAddingRestaurant = state => restauranstSelectors.getIsAddingRestaurant(state.restaurants);
+export const getIsRemovingRestaurant = state => restauranstSelectors.getIsRemovingRestaurant(state.restaurants);
+export const getRestaurantsError = state => restauranstSelectors.getRestaurantsError(state.restaurants);
+
+// BRANCHES
+export const getBranch = (state, id) => branchesSelectors.getBranch(state.branches, id);
+export const getBranches = state => branchesSelectors.getBranches(state.branches);
+export const getSelectedBranch = state => branchesSelectors.getSelectedBranch(state.branches);
+export const getIsFetchingBranch = state => branchesSelectors.getIsFetchingBranch(state.branches);
+export const getIsAddingBranch = state => branchesSelectors.getIsAddingBranch(state.branches);
+export const getIsRemovingBranch = state => branchesSelectors.getIsRemovingBranch(state.branches);
+export const getBranchesError = state => branchesSelectors.getBranchesError(state.branches);
