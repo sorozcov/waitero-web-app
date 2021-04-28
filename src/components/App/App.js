@@ -1,19 +1,20 @@
-import React, { useState, useEffect } from 'react';
 import { Provider } from 'react-redux';
-import { Router, Route, Redirect } from 'react-router';
 import { createHashHistory } from 'history';
 import { configureStore } from '../../store';
+import React, { useState, useEffect } from 'react';
+import { Router, Route, Redirect } from 'react-router';
 
+import Users from '../Users';
+import Offers from '../Offers';
+import LoginScreen from '../Login';
+import Restaurants from '../Restaurants';
+import TokenRefresh from '../TokenRefresh';
+import PrivateRoute from '../Routes/PrivateRoute';
+import HomeScreensSuperAdmin from '../HomeScreenSuperAdmin';
+import RestaurantDetails from '../Restaurants/RestaurantDetails';
 
 import * as selectors from '../../logic/reducers';
 import * as actions from '../../logic/actions/auth';
-import Restaurants from '../Restaurants';
-import Users from '../Users';
-import RestaurantDetails from '../Restaurants/RestaurantDetails';
-import LoginScreen from '../Login';
-import HomeScreensSuperAdmin from '../HomeScreenSuperAdmin';
-import TokenRefresh from '../TokenRefresh';
-import PrivateRoute from '../Routes/PrivateRoute';
 
 const { store } = configureStore();
 
@@ -59,6 +60,7 @@ const  App = () => {
 						<PrivateRoute exact path = '/restaurants/:restaurantId' component = { RestaurantDetails } route={2} />				
 						<PrivateRoute exact path='/home_screen_super_admin' component = { HomeScreensSuperAdmin } route={1} />
 						<PrivateRoute exact path = '/users' component = { Users } route={3} />
+						<PrivateRoute exact path = '/clients' component = { Offers } route={4} />
 				</Router>
 				{/* Actualiza el token solo si esta autenticado */}
 				<TokenRefresh reviewTime={10000} />
