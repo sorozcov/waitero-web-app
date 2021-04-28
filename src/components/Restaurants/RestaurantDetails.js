@@ -10,10 +10,11 @@ import { branches, restaurants } from '../../constants/data';
 
 const RestaurantDetails = ({
     restaurant,
-    // branches,
+    branchess,
 
     fetchBranches,
-    selectBranch
+    selectBranch,
+    createBranch
 }) => {
     // useEffect( () => {
     //     fetchBranches();
@@ -38,7 +39,7 @@ const RestaurantDetails = ({
         }
     );
 
-    console.log(branches)
+    console.log(branchess)
 
     return (
         <Fragment>
@@ -144,7 +145,12 @@ const RestaurantDetails = ({
                                                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
                                                             Nombre
                                                         </label>
-                                                        <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-restaurant-name" placeholder="Nombre"/>
+                                                        <input 
+                                                            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
+                                                            id="grid-restaurant-name" 
+                                                            placeholder="Nombre"
+                                                            onChange = { e => setName(e.target.value) }
+                                                        />
                                                         <p className="text-gray-600 text-xs italic">Campo requerido</p>
                                                     </div>
                                                 </div>
@@ -154,7 +160,12 @@ const RestaurantDetails = ({
                                                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
                                                             Dirección
                                                         </label>
-                                                        <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-restaurant-name" placeholder="Nombre"/>
+                                                        <input 
+                                                            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
+                                                            id="grid-restaurant-name" 
+                                                            placeholder="Nombre"
+                                                            onChange = { e => setAddress(e.target.value) }
+                                                        />
                                                         <p className="text-gray-600 text-xs italic">Campo requerido</p>
                                                     </div>
                                                 </div>
@@ -172,7 +183,14 @@ const RestaurantDetails = ({
                                             <button
                                                 className="bg-transparent hover:bg-blue-500 mb-5 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded mx-8"
                                                 type="button"
-                                                onClick={() => setShowModal(false)}
+                                                onClick={ () => {
+                                                    createBranch({
+                                                        name: name,
+                                                        restaurant_id: restaurantId,
+                                                        location: address
+                                                    });
+                                                    setShowModal(false)
+                                                } }
                                             >
                                                 Crear
                                             </button>
@@ -191,7 +209,7 @@ const RestaurantDetails = ({
 export default connect(
     state => ({
         restaurant: selectors.getSelectedRestaurant(state),
-        branches: selectors.getBranches(state),
+        branchess: selectors.getBranches(state),
     }),
     dispatch => ({
         fetchBranches() {
@@ -199,6 +217,9 @@ export default connect(
         },
         selectBranch(branch) {
             dispatch(branchActions.selectingBranch(branch));
+        },
+        createBranch(branch) {
+            dispatch(branchActions.startAddingBranch(branch))
         }
     })
 )(RestaurantDetails);

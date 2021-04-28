@@ -71,14 +71,14 @@ function* addRestaurant(action) {
         if (isAuth) {
             const token = yield select(selectors.getAuthToken);
             const { restaurant } = action.payload;
-            console.log(restaurant)
+            console.log("hey", restaurant)
 
             const response = yield call(
                 fetch,
                 `${API_BASE_URL}/restaurants/`,
                 {
                     method: 'POST',
-                    body: JSON.stringify({restaurant}),
+                    body: JSON.stringify(restaurant),
                     headers:{
                         'Content-Type': 'application/json',
                         'Authorization': `JWT ${token}`,
