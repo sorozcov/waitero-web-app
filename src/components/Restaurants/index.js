@@ -28,10 +28,13 @@ useEffect( () => {
     return (
         <Fragment>
             
-            <div className= 'px-8 py-8  pt-20'>
-                <h1 className= 'text-5xl font-bold mt-8'>RESTAURANTES</h1>
-                <hr className = "divider" />
-            </div>
+            <header className="bg-white shadow pt-20">
+                <div className="w-11/12 mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                <h1 className="text-3xl font-bold text-gray-900">
+                    Restaurantes
+                </h1>
+                </div>
+            </header>
 
             <div className="min-w-screen flex items-right justify-right font-sans overflow-hidden my-8 mx-8">
                 <button
