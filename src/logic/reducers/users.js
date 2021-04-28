@@ -31,8 +31,8 @@ const byId = (state = {}, action) => {
             {
                 return {
                     ...state,
-                    [action.payload.uid]: {
-                        ...state[action.payload.uid],
+                    [action.payload.id]: {
+                        ...state[action.payload.id],
                         ...action.payload,
                     },
                 };

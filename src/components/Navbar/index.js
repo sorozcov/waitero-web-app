@@ -46,7 +46,7 @@ const Navbar = ({route=1, logout, user}) => {
                   <div>
                     <button type="button" onClick={()=>{setShowUserSettings(!showUserSettings)}} className="max-w-xs bg-gray-800 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-secondary focus:ring-secondary" id="user-menu" aria-expanded="false" aria-haspopup="true">
                       <span className="sr-only">Open user menu</span>
-                      <img className="h-8 w-8 rounded-full" src={`https://avatar.oxro.io/avatar.svg?name=${user == null ? "" : user.username}&background=F9DC5C&color=000`} alt="" />
+                      <img className="h-8 w-8 rounded-full" src={`https://ui-avatars.com/api/?name=${user== null ? '' : `${user.first_name}+${user.last_name}`}&background=7DDE92&color=023E8D`} alt="" />
                     </button>
                   </div>
                   {/*
