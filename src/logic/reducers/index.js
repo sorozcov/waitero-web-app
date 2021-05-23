@@ -24,7 +24,7 @@ const reducer = combineReducers({
 
 const rootReducer = (state, action) => {
   if (action.type === AUTHENTICATION_IDENTITY_CLEARED) {
-    state = undefined
+    state.auth = undefined
   }
   return reducer(state, action)
 }
