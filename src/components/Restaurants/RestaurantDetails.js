@@ -6,11 +6,12 @@ import './styles.css';
 import * as selectors from '../../logic/reducers';
 import * as actions from '../../logic/actions/restaurants';
 import * as branchActions from '../../logic/actions/branches';
-import { branches, restaurants } from '../../constants/data';
+// import { branches, restaurants } from '../../constants/data';
+import { uuid } from 'uuidv4';
 
 const RestaurantDetails = ({
     restaurant,
-    branchess,
+    branches,
 
     fetchBranches,
     selectBranch,
@@ -39,7 +40,7 @@ const RestaurantDetails = ({
         }
     );
 
-    console.log(branchess)
+
 
     return (
         <Fragment>
@@ -47,12 +48,25 @@ const RestaurantDetails = ({
             {
                 restaurant !== null && (
                     <Fragment>
-                        <div className= 'px-8 pt-8  pt-20'>
-                            <h1 className= 'text-5xl font-bold mt-8'>{ restaurant.name }</h1>
-                            <hr className = "divider" />
+                         <header className="bg-white shadow pt-20">
+                        <div className="w-11/12 mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                        <h1 className="text-3xl font-bold text-gray-900">{restaurant.name}</h1>
                         </div>
-
-                        <div className="overflow-x-auto">
+                    </header>
+                     
+                        
+                        <div className="min-w-screen flex items-right justify-end font-sans overflow-hidden my-8 mx-8">
+                            <div className="flex justify-end">
+                            <button
+                                className="bg-transparent hover:bg-blue-500 mb-5 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded justify-end"
+                                type="button"
+                                onClick={() => setShowModal(true)}
+                            >
+                                Nueva Sucursal
+                            </button>
+                            </div>
+                        </div>
+                        <div style={{marginTop: '-50px'}}>
                             <div className="min-w-screen flex items-center justify-center font-sans overflow-hidden my-8">
                                 <div className="w-full lg:w-5/6">
                                     <div className="bg-white shadow-md rounded my-6">
@@ -62,15 +76,7 @@ const RestaurantDetails = ({
                                                 Sucursales
                                             </p>
                                         </div>
-                                        <div className="col-end-7 col-span-2">
-                                            <button
-                                                className="bg-transparent hover:bg-blue-500 mb-5 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
-                                                type="button"
-                                                onClick={() => setShowModal(true)}
-                                            >
-                                                Crear Sucursal
-                                            </button>
-                                        </div>
+                                        
                                     </div>
                                         
                                         <table className="min-w-max w-full table-auto">
@@ -171,30 +177,31 @@ const RestaurantDetails = ({
                                                 </div>
                                             </form>
                                         </div>
-
-                                        <div className="flex items-center justify-end p-3 border-t border-solid border-blueGray-200 rounded-b">
-                                            <button
-                                                className="bg-transparent hover:bg-red-500 mb-5 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded mx-8"
-                                                type="button"
-                                                onClick={() => setShowModal(false)}
-                                            >
-                                                Cerrar
-                                            </button>
-                                            <button
-                                                className="bg-transparent hover:bg-blue-500 mb-5 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded mx-8"
-                                                type="button"
-                                                onClick={ () => {
-                                                    createBranch({
-                                                        name: name,
-                                                        restaurant_id: restaurantId,
-                                                        location: address
-                                                    });
-                                                    setShowModal(false)
-                                                } }
-                                            >
-                                                Crear
-                                            </button>
-                                        </div>
+                                        <div className="flex m-3 items-center justify-end p-3 rounded-b">
+                                    <button
+                                        className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                        type="button"
+                                        onClick={() => {setShowModal(false); }}
+                                    >
+                                        Cancelar
+                                    </button>
+                                    <button
+                                        className={`bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150`}
+            
+                                        onClick={ () => {
+                                            createBranch({
+                                                name: name,
+                                                restaurant_id: restaurantId,
+                                                location: address,
+                                                id:uuid()
+                                            });
+                                            setShowModal(false)
+                                        } }
+                                    >
+                                       {'Crear Sucursal'}
+                                    </button>
+                                </div>
+                                   
                                     </div>
                                 </div>
                             </div>
@@ -209,7 +216,7 @@ const RestaurantDetails = ({
 export default connect(
     state => ({
         restaurant: selectors.getSelectedRestaurant(state),
-        branchess: selectors.getBranches(state),
+        branches: selectors.getBranches(state),
     }),
     dispatch => ({
         fetchBranches() {

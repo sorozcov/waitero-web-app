@@ -10,6 +10,7 @@ import offers, * as offerSelectors from './offers';
 import branches, * as branchesSelectors from './branches';
 import products, * as productsSelectors from "./products";
 import restaurants , * as restauranstSelectors from './restaurants';
+import Dropzone from 'react-dropzone';
 
 const reducer = combineReducers({
   auth,

@@ -1,3 +1,4 @@
+/* eslint-disable no-lone-blocks */
 import { combineReducers } from 'redux';
 import omit from 'lodash/omit';
 import union from 'lodash/union';
@@ -20,7 +21,7 @@ const byId = (state = {}, action) => {
             return newState;
         };
 
-        case types.ADD_BRANCH_COMPLETED: {
+        case types.ADD_BRANCH_STARTED: {
             const newState = { ...state };
 
             newState[action.payload.branch.id] = {
@@ -46,7 +47,7 @@ const order = (state = [], action) => {
             return union(action.payload.order);
         };
 
-        case types.ADD_BRANCH_COMPLETED: {
+        case types.ADD_BRANCH_STARTED: {
             return [ ...state, action.payload.branch.id];
         };
 

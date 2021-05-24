@@ -20,7 +20,7 @@ const byId = (state = {}, action) => {
             return newState;
         };
 
-        case types.ADD_RESTAURANT_COMPLETED: {
+        case types.ADD_RESTAURANT_STARTED: {
             const newState = { ...state };
 
             newState[action.payload.restaurant.id] = {
@@ -46,7 +46,7 @@ const order = (state = [], action) => {
             return union(action.payload.order);
         };
 
-        case types.ADD_RESTAURANT_COMPLETED: {
+        case types.ADD_RESTAURANT_STARTED: {
             return [ ...state, action.payload.restaurant.id];
         };
 

@@ -40,7 +40,7 @@ export const branches = [
     {
         id: 1,
         name: 'Majadas Once',
-        restaurant_id: 3,
+        restaurant_id: "5e21df4c-5cdd-41ba-ac8a-7b6f988f02c2",
         location: '27 ave. 6-40, Zona 11'
     },
     {
@@ -52,7 +52,7 @@ export const branches = [
     {
         id: 3,
         name: 'Paseo Cayalá',
-        restaurant_id: 1,
+        restaurant_id: "5e21df4c-5cdd-41ba-ac8a-7b6f988f02c2",
         location: 'Boulevard Rafael Landívar 10-05 Paseo Cayalá, Zona 16, Guatemala, - Guatemala'
     },
     {
