@@ -7,7 +7,8 @@ import { Multiselect } from 'multiselect-react-dropdown';
 import './styles.css';
 import TextInput from '../Common/textInput';
 import * as selectors from '../../logic/reducers';
-import * as actionsProducts from '../../logic/actions/products';
+import * as actionsMenus from '../../logic/actions/menus';
+import { v4 as uuidv4 } from 'uuid';
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -17,9 +18,8 @@ function classNames(...classes) {
 const Products = ({ products, branches, restaurants, fetchProducts, submitting, handleSubmit, createProduct, editProduct, initialValues, selectProduct, deselectProduct, isNew }) => {
     const [open, setOpen] = useState(false);
     const [selectedRestaurant, setSelectedRestaurant] = useState({});
-    const [selectedBranches, setSelectedBranches] = useState({});
+    const [selectedBranches, setSelectedBranches] = useState([]);
     const branchesBySelectedRestaurant = branches.filter(branch => branch.restaurant_id === selectedRestaurant.id);
-    //useEffect(fetchProducts,[fetchProducts]);
     return (
         <Fragment>
             <header className="bg-white shadow pt-20">
@@ -61,31 +61,19 @@ const Products = ({ products, branches, restaurants, fetchProducts, submitting, 
                                         </tr>
                                     </thead>
                                     <tbody className="bg-white divide-y divide-gray-200">
-                                        {products.map(user => (
-                                        <tr key={user.id}>
-                                            <td className="px-6 py-4 whitespace-nowrap">
-                                                <div className="flex items-center">
-                                                <div className="flex-shrink-0 h-10 w-10">
-                                                    <img className="h-8 w-8 rounded-full" src={`https://ui-avatars.com/api/?name=${user== null ? '' : `${user.first_name}+${user.last_name}`}&background=7DDE92&color=023E8D`} alt="" />
-                                                </div>
-                                                <div className="ml-4">
-                                                    <div className="text-sm font-medium text-gray-900">
-                                                        {user.username}
-                                                    </div>
-                                                    <div className="text-sm text-gray-500">
-                                                        {user.email}
-                                                    </div>
-                                                </div>
-                                                </div>
+                                        {products.map(product => (
+                                        <tr key={product.id}>
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                                {product.name}
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                                {user.first_name} {user.last_name}
+                                                {product.price}
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                                {user.userType_display}
+                                                {branches.filter(branch => product.branches.includes(branch.id)).map(branch => branch.name).join(', ')}
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                                {user.phoneNumber}
+                                                {product.description}
                                             </td>
                                             <td  className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                                 
@@ -93,7 +81,7 @@ const Products = ({ products, branches, restaurants, fetchProducts, submitting, 
                                                 <button
                                                     className="bg-gray-400 text-white active:bg-blue-600 hover:bg-blue-500 font-bold uppercase text-sm px-2 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                                     type="button"
-                                                    onClick={()=> selectProduct(user, setOpen)}
+                                                    onClick={()=> selectProduct(product, setOpen)}
                                                 >
                                                     Editar
                                                 </button>
@@ -256,8 +244,8 @@ const Products = ({ products, branches, restaurants, fetchProducts, submitting, 
                                         className={`bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150`}
             
                                         onClick={handleSubmit((values) => {
-                                            isNew ? createProduct({userType: selectedRestaurant.id, ...values}, setOpen) 
-                                            : editProduct(values, setOpen)
+                                            isNew ? createProduct({branches: selectedBranches.map(branch => branch.id), ...values, id: uuidv4()}, setOpen) 
+                                            : editProduct({branches: selectedBranches.map(branch => branch.id), ...values}, setOpen)
                                         })} disabled={submitting} type="submit"
                                     >
                                        {isNew ? 'Crear Producto' : 'Editar Producto'}
@@ -287,26 +275,26 @@ export default connect(
     }),
     dispatch => ({
       fetchProducts(values) {
-        dispatch(actionsProducts.startFetchingProduct(values));
+        dispatch(actionsMenus.startFetchingMenu(values));
       },
       createProduct(values, setOpen) {
-        if(values.username && values.password && values.first_name && values.last_name && values.email && values.phoneNumber && values.userType) {
-            dispatch(actionsProducts.startAddingProduct(values));
+        if(values.name && values.price && values.description && values.branches && values.id) {
+            dispatch(actionsMenus.completeAddingMenu(values));
             setOpen(false);
         }
       },
       editProduct(values, setOpen) {
-        if(values.username && values.password && values.first_name && values.last_name && values.email && values.phoneNumber && values.userType) {
-            dispatch(actionsProducts.startEditingProduct({...values, password: undefined}));
+        if(values.name && values.price && values.description && values.branches && values.id) {
+            dispatch(actionsMenus.completeEditingMenu(values));
             setOpen(false);
         }
       },
-      selectProduct(user ,setOpen) {
-        dispatch(actionsProducts.selectProduct({password: 'password', ...user}));
+      selectProduct(product ,setOpen) {
+        dispatch(actionsMenus.selectMenu(product));
         setOpen(true);
       },
       deselectProduct(setOpen) {
-        dispatch(actionsProducts.deselectProduct());
+        dispatch(actionsMenus.deselectMenu());
         setOpen(true);
       },
     }),

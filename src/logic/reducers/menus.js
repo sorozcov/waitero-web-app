@@ -20,20 +20,18 @@ const byId = (state = {}, action) => {
 
             return newState;
         }
-        case types.MENU_ADD_STARTED: {
+        case types.MENU_ADD_COMPLETED: {
             const newState = { ...state };
             newState[action.payload.id] = {
                 ...action.payload,
-                isConfirmed: false,
             };
             return newState;
         }
-        case types.MENU_ADD_COMPLETED: {
-            const { oldId, menu } = action.payload;
-            const newState = omit(state, oldId);
-            newState[menu.id] = {
-                ...menu,
-                isConfirmed: true,
+        case types.MENU_EDIT_COMPLETED: {
+            const newState = { ...state };
+            newState[action.payload.id] = {
+                ...newState[action.payload.id],
+                ...action.payload,
             };
             return newState;
         }
@@ -69,12 +67,8 @@ const order = (state = [], action) => {
         case types.MENU_FETCH_COMPLETED: {
             return [...state, ...action.payload.order.filter(newElement => !includes(state, newElement))];
         }
-        case types.MENU_ADD_STARTED: {
-            return [...state, action.payload.id];
-        }
         case types.MENU_ADD_COMPLETED: {
-            const { oldId, menu } = action.payload;
-            return state.map(id => id === oldId ? menu.id : id);
+            return [...state, action.payload.id];
         }
         case types.MENU_REMOVE_STARTED: {
             return state.filter(id => id !== action.payload.id);

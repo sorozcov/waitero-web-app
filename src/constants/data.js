@@ -46,7 +46,7 @@ export const branches = [
     {
         id: 2,
         name: 'Condado Naranjo',
-        restaurant_id: 2,
+        restaurant_id: "799636eb-cb67-4331-8b9a-b097b8c43f39",
         location: '22 calle 7-15 zona 4 de Mixco'
     },
     {
@@ -58,7 +58,7 @@ export const branches = [
     {
         id: 4,
         name: 'Plaza Fontabella',
-        restaurant_id: 4,
+        restaurant_id: "799636eb-cb67-4331-8b9a-b097b8c43f39",
         location: '56 Plaza Fontabella, 14 Calle 2, Cdad. de Guatemala'
     },
 ];

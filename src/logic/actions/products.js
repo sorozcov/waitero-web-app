@@ -21,12 +21,9 @@ export const startAddingProduct = product => ({
     type: types.PRODUCT_ADD_STARTED,
     payload: product,
 });
-export const completeAddingProduct = (oldId, product) => ({
+export const completeAddingProduct = (product) => ({
     type: types.PRODUCT_ADD_COMPLETED,
-    payload: {
-        oldId,
-        product,
-    },
+    payload: product,
 });
 export const failAddingProduct = (oldId, error) => ({
     type: types.PRODUCT_ADD_FAILED,

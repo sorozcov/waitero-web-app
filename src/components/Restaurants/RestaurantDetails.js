@@ -87,30 +87,32 @@ const RestaurantDetails = ({
                                                     <th className="py-3 px-6 text-left">DIRECCIÓN</th>
                                                 </tr>
                                             </thead>
-                                            <tbody 
-                                                className="text-gray-600 text-sm font-light cursor-pointer" 
-                                                onClick = { () => {
-                                                    selectBranch(branch)
-                                                    history.push(`/restaurants/${restaurantId}/branch/${branch.id}`)
-                                                } }>
-                                                <tr className="border-b border-gray-200 hover:bg-gray-100">
-                                                    <td className="py-3 px-6 text-left whitespace-nowrap">
-                                                        <div className="flex items-center">
-                                                            <span className="font-medium">{branch.id}</span>
-                                                        </div>
-                                                    </td>
-                                                    <td className="py-3 px-6 text-left">
-                                                        <div className="flex items-center">
-                                                            <span>{branch.name}</span>
-                                                        </div>
-                                                    </td>
-                                                    <td className="py-3 px-6 text-center">
-                                                        <div className="flex items-center">
-                                                            <span className="font-medium">{branch.location}</span>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </tbody> 
+                                            {branches.map(branch => (
+                                                <tbody 
+                                                    className="text-gray-600 text-sm font-light cursor-pointer" 
+                                                    onClick = { () => {
+                                                        selectBranch(branch)
+                                                        history.push(`//${restaurantId}/branch/${branch.id}`)
+                                                    } }>
+                                                    <tr className="border-b border-gray-200 hover:bg-gray-100">
+                                                        <td className="py-3 px-6 text-left whitespace-nowrap">
+                                                            <div className="flex items-center">
+                                                                <span className="font-medium">{branch.id}</span>
+                                                            </div>
+                                                        </td>
+                                                        <td className="py-3 px-6 text-left">
+                                                            <div className="flex items-center">
+                                                                <span>{branch.name}</span>
+                                                            </div>
+                                                        </td>
+                                                        <td className="py-3 px-6 text-center">
+                                                            <div className="flex items-center">
+                                                                <span className="font-medium">{branch.location}</span>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody> 
+                                            ))}
                                         </table>
                                     </div>
                                 </div>
@@ -216,7 +218,7 @@ const RestaurantDetails = ({
 export default connect(
     state => ({
         restaurant: selectors.getSelectedRestaurant(state),
-        branches: selectors.getBranches(state),
+        branches: selectors.getBranches(state).filter(branch => selectors.getSelectedRestaurant(state).id === branch.restaurant_id),
     }),
     dispatch => ({
         fetchBranches() {

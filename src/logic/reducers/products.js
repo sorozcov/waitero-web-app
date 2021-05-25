@@ -19,20 +19,18 @@ const byId = (state = {}, action) => {
 
             return newState;
         }
-        case types.PRODUCT_ADD_STARTED: {
+        case types.PRODUCT_ADD_COMPLETED: {
             const newState = { ...state };
             newState[action.payload.id] = {
                 ...action.payload,
-                isConfirmed: false,
             };
             return newState;
         }
-        case types.PRODUCT_ADD_COMPLETED: {
-            const { oldId, product } = action.payload;
-            const newState = omit(state, oldId);
-            newState[product.id] = {
-                ...product,
-                isConfirmed: true,
+        case types.PRODUCT_EDIT_COMPLETED: {
+            const newState = { ...state };
+            newState[action.payload.id] = {
+                ...newState[action.payload.id],
+                ...action.payload,
             };
             return newState;
         }
@@ -50,12 +48,8 @@ const order = (state = [], action) => {
         case types.PRODUCT_FETCH_COMPLETED: {
             return [...state, ...action.payload.order.filter(newElement => !includes(state, newElement))];
         }
-        case types.PRODUCT_ADD_STARTED: {
-            return [...state, action.payload.id];
-        }
         case types.PRODUCT_ADD_COMPLETED: {
-            const { oldId, product } = action.payload;
-            return state.map(id => id === oldId ? product.id : id);
+            return [...state, action.payload.id];
         }
         case types.PRODUCT_REMOVE_STARTED: {
             return state.filter(id => id !== action.payload.id);

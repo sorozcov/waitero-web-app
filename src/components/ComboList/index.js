@@ -8,17 +8,21 @@ import './styles.css';
 import TextInput from '../Common/textInput';
 import * as selectors from '../../logic/reducers';
 import * as actionsMenus from '../../logic/actions/menus';
+import { v4 as uuidv4 } from 'uuid';
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
   
 
-const Menus = ({ menus, branches, restaurants, fetchMenus, submitting, handleSubmit, createMenu, editMenu, initialValues, selectMenu, deselectMenu, isNew }) => {
+const Menus = ({ menus, branches, products, restaurants, fetchMenus, submitting, handleSubmit, createMenu, editMenu, initialValues, selectMenu, deselectMenu, isNew }) => {
     const [open, setOpen] = useState(false);
     const [selectedRestaurant, setSelectedRestaurant] = useState({});
-    const [selectedBranches, setSelectedBranches] = useState({});
+    const [selectedBranches, setSelectedBranches] = useState([]);
+    const [selectedProducts, setSelectedProducts] = useState([]);
     const branchesBySelectedRestaurant = branches.filter(branch => branch.restaurant_id === selectedRestaurant.id);
+    const productsBySelectedBranch = selectedBranches.length > 0 ? 
+        products.filter(product => selectedBranches.filter( branch => product.branches.includes(branch.id)).length === selectedBranches.length) : [];
     //useEffect(fetchMenus,[fetchMenus]);
     return (
         <Fragment>
@@ -55,37 +59,31 @@ const Menus = ({ menus, branches, restaurants, fetchMenus, submitting, handleSub
                                         <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             Productos
                                         </th>
+                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Descripción
+                                        </th>
                                         <th scope="col" className="relative px-6 py-3">
                                             <span className="sr-only">Edit</span>
                                         </th>
                                         </tr>
                                     </thead>
                                     <tbody className="bg-white divide-y divide-gray-200">
-                                        {menus.map(user => (
-                                        <tr key={user.id}>
-                                            <td className="px-6 py-4 whitespace-nowrap">
-                                                <div className="flex items-center">
-                                                <div className="flex-shrink-0 h-10 w-10">
-                                                    <img className="h-8 w-8 rounded-full" src={`https://ui-avatars.com/api/?name=${user== null ? '' : `${user.first_name}+${user.last_name}`}&background=7DDE92&color=023E8D`} alt="" />
-                                                </div>
-                                                <div className="ml-4">
-                                                    <div className="text-sm font-medium text-gray-900">
-                                                        {user.username}
-                                                    </div>
-                                                    <div className="text-sm text-gray-500">
-                                                        {user.email}
-                                                    </div>
-                                                </div>
-                                                </div>
+                                        {menus.map(combo => (
+                                        <tr key={combo.id}>
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                                {combo.name}
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                                {user.first_name} {user.last_name}
+                                                {combo.price}
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                                {user.userType_display}
+                                                {branches.filter(branch => combo.branches.includes(branch.id)).map(branch => branch.name).join(', ')}
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                                {user.phoneNumber}
+                                                {products.filter(product => combo.products.includes(product.id)).map(product => product.name).join(', ')}
+                                            </td>
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                                {combo.description}
                                             </td>
                                             <td  className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                                 
@@ -93,7 +91,7 @@ const Menus = ({ menus, branches, restaurants, fetchMenus, submitting, handleSub
                                                 <button
                                                     className="bg-gray-400 text-white active:bg-blue-600 hover:bg-blue-500 font-bold uppercase text-sm px-2 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                                     type="button"
-                                                    onClick={()=> selectMenu(user, setOpen)}
+                                                    onClick={()=> selectMenu(combo, setOpen)}
                                                 >
                                                     Editar
                                                 </button>
@@ -243,6 +241,15 @@ const Menus = ({ menus, branches, restaurants, fetchMenus, submitting, handleSub
                                             onRemove={(selectedList, removedItem) => setSelectedBranches(selectedList)} // Function will trigger on remove event
                                             displayValue="name" // Property name to display in the dropdown options
                                             /></>}
+                                        { isNew && <>
+                                        <label className="block text-md font-medium text-gray-700 mt-5">{"Productos"}</label>
+                                        <Multiselect
+                                            options={productsBySelectedBranch} // Options to display in the dropdown
+                                            selectedValues={selectedProducts} // Preselected value to persist in dropdown
+                                            onSelect={(selectedList, selectedItem) => setSelectedProducts(selectedList)} // Function will trigger on select event
+                                            onRemove={(selectedList, removedItem) => setSelectedProducts(selectedList)} // Function will trigger on remove event
+                                            displayValue="name" // Property name to display in the dropdown options
+                                            /></>}
                                         <Field name={'description'} component={TextInput} label={'Descripción'} type={"text"} hasPlaceholder={false} />                                        
                                         <div className="flex m-3 items-center justify-end p-3 rounded-b">
                                     <button
@@ -256,8 +263,8 @@ const Menus = ({ menus, branches, restaurants, fetchMenus, submitting, handleSub
                                         className={`bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150`}
             
                                         onClick={handleSubmit((values) => {
-                                            isNew ? createMenu({userType: selectedRestaurant.id, ...values}, setOpen) 
-                                            : editMenu(values, setOpen)
+                                            isNew ? createMenu({products: selectedProducts.map(product => product.id), branches: selectedBranches.map(branch => branch.id), ...values, id: uuidv4()}, setOpen)
+                                            : editMenu({products: selectedProducts.map(product => product.id), branches: selectedBranches.map(branch => branch.id), ...values}, setOpen)
                                         })} disabled={submitting} type="submit"
                                     >
                                        {isNew ? 'Crear Combo' : 'Editar Combo'}
@@ -280,6 +287,7 @@ const Menus = ({ menus, branches, restaurants, fetchMenus, submitting, handleSub
 export default connect(
     state => ({
       restaurants: selectors.getRestaurants(state),
+      products: selectors.getProducts(state),
       menus: selectors.getMenus(state),
       initialValues: selectors.getSelectedMenu(state),   
       isNew: selectors.getSelectedMenu(state) == null,   
@@ -290,19 +298,19 @@ export default connect(
         dispatch(actionsMenus.startFetchingMenu(values));
       },
       createMenu(values, setOpen) {
-        if(values.username && values.password && values.first_name && values.last_name && values.email && values.phoneNumber && values.userType) {
-            dispatch(actionsMenus.startAddingMenu(values));
+        if(values.name && values.price && values.description && values.branches && values.id, values.products) {
+            dispatch(actionsMenus.completeAddingMenu(values));
             setOpen(false);
         }
       },
       editMenu(values, setOpen) {
-        if(values.username && values.password && values.first_name && values.last_name && values.email && values.phoneNumber && values.userType) {
-            dispatch(actionsMenus.startEditingMenu({...values, password: undefined}));
+        if(values.name && values.price && values.description && values.branches && values.id, values.products) {
+            dispatch(actionsMenus.completeEditingMenu({...values, password: undefined}));
             setOpen(false);
         }
       },
-      selectMenu(user ,setOpen) {
-        dispatch(actionsMenus.selectMenu({password: 'password', ...user}));
+      selectMenu(combo ,setOpen) {
+        dispatch(actionsMenus.selectMenu({password: 'password', ...combo}));
         setOpen(true);
       },
       deselectMenu(setOpen) {
@@ -316,7 +324,7 @@ export default connect(
     validate: (values) => {
         const errors = {};
   
-        errors.username = !values.username
+        errors.comboname = !values.comboname
             ? 'Este campo es obligatorio'
             : undefined;
         errors.password = !values.password
