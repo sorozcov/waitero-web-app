@@ -66,18 +66,20 @@ export const isEditingOffers = state => offerSelectors.isEditingOffers(state.off
 export const isRemovingOffers = state => offerSelectors.isRemovingOffers(state.offers);
 export const getOffersError = state => offerSelectors.getOffersError(state.offers);
 export const getOfferAddStatus = state => offerSelectors.getAddStatus(state.offers);
-export const getProductByID = (state, id) => productsSelectors.getProductByID(state.products, id);
-export const getProductOrder = (state) => productsSelectors.getProductOrder(state.products);
-export const getAllProducts = (state) => productsSelectors.getAllProducts(state.products);
-export const getSelectedProduct = (state) => productsSelectors.getSelectedProduct(state.products);
-export const getIsFetchingProducts = (state) => productsSelectors.getIsFetching(state.products);
+
+// PRODUCTS
+export const getProduct = (state, id) => productsSelectors.getProduct(state.products, id);
+export const getProducts = state => productsSelectors.getProducts(state.products);
+export const getSelectedProduct = state => productsSelectors.getSelectedProduct(state.products);
+export const isFetchingProducts = state => productsSelectors.isFetchingProducts(state.products);
+export const getProductsError = state => productsSelectors.getProductsError(state.products);
 
 // MENUS
-export const getMenuByID = (state, id) => menusSelectors.getMenuByID(state.menus, id);
-export const getMenuOrder = (state) => menusSelectors.getMenuOrder(state.menus);
-export const getAllMenus = (state) => menusSelectors.getAllMenus(state.menus);
-export const getSelectedMenu = (state) => menusSelectors.getSelectedMenu(state.menus);
-export const getIsFetchingMenus = (state) => menusSelectors.getIsFetching(state.products);
+export const getMenu = (state, id) => menusSelectors.getMenu(state.menus, id);
+export const getMenus = state => menusSelectors.getMenus(state.menus);
+export const getSelectedMenu = state => menusSelectors.getSelectedMenu(state.menus);
+export const isFetchingMenus = state => menusSelectors.isFetchingMenus(state.menus);
+export const getMenusError = state => menusSelectors.getMenusError(state.menus);
 
 // RESTAURANTS
 export const getRestaurant = (state, id) => restauranstSelectors.getRestaurant(state.restaurants, id);

@@ -36,6 +36,22 @@ export const failAddingMenu = (oldId, error) => ({
     },
 });
 
+export const startEditingMenu = user => ({
+    type: types.MENU_EDIT_STARTED,
+    payload: user,
+});
+export const completeEditingMenu = user => ({
+    type: types.MENU_EDIT_COMPLETED,
+    payload: user,
+});
+export const failEditingMenu = (id, error) => ({
+    type: types.MENU_EDIT_FAILED,
+    payload: {
+        id,
+        error,
+    },
+});
+
 export const selectMenu = (id) => ({
     type: types.MENU_SELECTED,
     payload: {

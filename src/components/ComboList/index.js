@@ -7,25 +7,25 @@ import { Multiselect } from 'multiselect-react-dropdown';
 import './styles.css';
 import TextInput from '../Common/textInput';
 import * as selectors from '../../logic/reducers';
-import * as actionsProducts from '../../logic/actions/products';
+import * as actionsMenus from '../../logic/actions/menus';
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
   
 
-const Products = ({ products, branches, restaurants, fetchProducts, submitting, handleSubmit, createProduct, editProduct, initialValues, selectProduct, deselectProduct, isNew }) => {
+const Menus = ({ menus, branches, restaurants, fetchMenus, submitting, handleSubmit, createMenu, editMenu, initialValues, selectMenu, deselectMenu, isNew }) => {
     const [open, setOpen] = useState(false);
     const [selectedRestaurant, setSelectedRestaurant] = useState({});
     const [selectedBranches, setSelectedBranches] = useState({});
     const branchesBySelectedRestaurant = branches.filter(branch => branch.restaurant_id === selectedRestaurant.id);
-    //useEffect(fetchProducts,[fetchProducts]);
+    //useEffect(fetchMenus,[fetchMenus]);
     return (
         <Fragment>
             <header className="bg-white shadow pt-20">
                 <div className="w-11/12 mx-auto py-6 px-4 sm:px-6 lg:px-8">
                 <h1 className="text-3xl font-bold text-gray-900">
-                    Productos
+                    Combos
                 </h1>
                 </div>
             </header>
@@ -33,8 +33,8 @@ const Products = ({ products, branches, restaurants, fetchProducts, submitting, 
                 <div className="w-11/12 mx-auto py-6 sm:px-6 lg:px-8">
                 
                     <div className="flex justify-end">
-                        <button  onClick={() => deselectProduct(setOpen)} className="bg-transparent hover:bg-blue-500 mb-5 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
-                        Nuevo Producto
+                        <button  onClick={() => deselectMenu(setOpen)} className="bg-transparent hover:bg-blue-500 mb-5 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+                        Nuevo Combo
                         </button>
                     </div>
                     <div className="flex justify-center">
@@ -44,7 +44,7 @@ const Products = ({ products, branches, restaurants, fetchProducts, submitting, 
                                     <thead className="bg-gray-50">
                                         <tr>
                                         <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Producto
+                                            Combo
                                         </th>
                                         <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             Precio
@@ -53,7 +53,7 @@ const Products = ({ products, branches, restaurants, fetchProducts, submitting, 
                                             Sucursal
                                         </th>
                                         <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Descripción
+                                            Productos
                                         </th>
                                         <th scope="col" className="relative px-6 py-3">
                                             <span className="sr-only">Edit</span>
@@ -61,7 +61,7 @@ const Products = ({ products, branches, restaurants, fetchProducts, submitting, 
                                         </tr>
                                     </thead>
                                     <tbody className="bg-white divide-y divide-gray-200">
-                                        {products.map(user => (
+                                        {menus.map(user => (
                                         <tr key={user.id}>
                                             <td className="px-6 py-4 whitespace-nowrap">
                                                 <div className="flex items-center">
@@ -93,7 +93,7 @@ const Products = ({ products, branches, restaurants, fetchProducts, submitting, 
                                                 <button
                                                     className="bg-gray-400 text-white active:bg-blue-600 hover:bg-blue-500 font-bold uppercase text-sm px-2 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                                     type="button"
-                                                    onClick={()=> selectProduct(user, setOpen)}
+                                                    onClick={()=> selectMenu(user, setOpen)}
                                                 >
                                                     Editar
                                                 </button>
@@ -162,12 +162,12 @@ const Products = ({ products, branches, restaurants, fetchProducts, submitting, 
                             </Transition.Child>
                             <div className="h-full flex flex-col py-6 bg-white shadow-xl overflow-y-scroll">
                             <div className="px-4 sm:px-6">
-                                <Dialog.Title className="text-lg font-medium text-gray-900">{isNew ? 'Nuevo Producto' : 'Editar Producto'}</Dialog.Title>
+                                <Dialog.Title className="text-lg font-medium text-gray-900">{isNew ? 'Nuevo Combo' : 'Editar Combo'}</Dialog.Title>
                             </div>
                             <div className="mt-6 relative flex-1 px-4 sm:px-6">
                                 <div className="rounded-md shadow-sm -space-y-px">
                                     <form>
-                                        <Field name={'name'} component={TextInput} label={'Nombre de Producto'} type={"text"} hasPlaceholder={false} />
+                                        <Field name={'name'} component={TextInput} label={'Nombre del combo'} type={"text"} hasPlaceholder={false} />
                                         <Field name={'price'} component={TextInput} label={'Precio'} type={"text"} hasPlaceholder={false} />
                                         { isNew && <Listbox value={selectedRestaurant} onChange={setSelectedRestaurant}>
                                         {({ open }) => (
@@ -256,11 +256,11 @@ const Products = ({ products, branches, restaurants, fetchProducts, submitting, 
                                         className={`bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150`}
             
                                         onClick={handleSubmit((values) => {
-                                            isNew ? createProduct({userType: selectedRestaurant.id, ...values}, setOpen) 
-                                            : editProduct(values, setOpen)
+                                            isNew ? createMenu({userType: selectedRestaurant.id, ...values}, setOpen) 
+                                            : editMenu(values, setOpen)
                                         })} disabled={submitting} type="submit"
                                     >
-                                       {isNew ? 'Crear Producto' : 'Editar Producto'}
+                                       {isNew ? 'Crear Combo' : 'Editar Combo'}
                                     </button>
                                 </div>
                                     </form>
@@ -280,51 +280,60 @@ const Products = ({ products, branches, restaurants, fetchProducts, submitting, 
 export default connect(
     state => ({
       restaurants: selectors.getRestaurants(state),
-      products: selectors.getProducts(state),
-      initialValues: selectors.getSelectedProduct(state),   
-      isNew: selectors.getSelectedProduct(state) == null,   
+      menus: selectors.getMenus(state),
+      initialValues: selectors.getSelectedMenu(state),   
+      isNew: selectors.getSelectedMenu(state) == null,   
       branches: selectors.getBranches(state),
     }),
     dispatch => ({
-      fetchProducts(values) {
-        dispatch(actionsProducts.startFetchingProduct(values));
+      fetchMenus(values) {
+        dispatch(actionsMenus.startFetchingMenu(values));
       },
-      createProduct(values, setOpen) {
+      createMenu(values, setOpen) {
         if(values.username && values.password && values.first_name && values.last_name && values.email && values.phoneNumber && values.userType) {
-            dispatch(actionsProducts.startAddingProduct(values));
+            dispatch(actionsMenus.startAddingMenu(values));
             setOpen(false);
         }
       },
-      editProduct(values, setOpen) {
+      editMenu(values, setOpen) {
         if(values.username && values.password && values.first_name && values.last_name && values.email && values.phoneNumber && values.userType) {
-            dispatch(actionsProducts.startEditingProduct({...values, password: undefined}));
+            dispatch(actionsMenus.startEditingMenu({...values, password: undefined}));
             setOpen(false);
         }
       },
-      selectProduct(user ,setOpen) {
-        dispatch(actionsProducts.selectProduct({password: 'password', ...user}));
+      selectMenu(user ,setOpen) {
+        dispatch(actionsMenus.selectMenu({password: 'password', ...user}));
         setOpen(true);
       },
-      deselectProduct(setOpen) {
-        dispatch(actionsProducts.deselectProduct());
+      deselectMenu(setOpen) {
+        dispatch(actionsMenus.deselectMenu());
         setOpen(true);
       },
     }),
   )(reduxForm({ 
-    form: 'editProduct',
+    form: 'editMenu',
     enableReinitialize : true,    
     validate: (values) => {
         const errors = {};
   
-        errors.name = !values.name
+        errors.username = !values.username
             ? 'Este campo es obligatorio'
             : undefined;
-        errors.price = !values.price
+        errors.password = !values.password
           ? 'Este campo es obligatorio'
           : undefined;
-        errors.description = !values.description
+        errors.first_name = !values.first_name
             ? 'Este campo es obligatorio'
             : undefined;
+        errors.last_name = !values.last_name
+          ? 'Este campo es obligatorio'
+          : undefined;
+        errors.email = !values.email
+          ? 'Este campo es obligatorio'
+          : undefined;
+        errors.phoneNumber = !values.phoneNumber
+          ? 'Este campo es obligatorio'
+          : undefined;
       return errors;
     }
-  })(Products));
+  })(Menus));

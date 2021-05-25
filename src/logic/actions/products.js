@@ -36,6 +36,22 @@ export const failAddingProduct = (oldId, error) => ({
     },
 });
 
+export const startEditingProduct = user => ({
+    type: types.PRODUCT_EDIT_STARTED,
+    payload: user,
+});
+export const completeEditingProduct = user => ({
+    type: types.PRODUCT_EDIT_COMPLETED,
+    payload: user,
+});
+export const failEditingProduct = (id, error) => ({
+    type: types.PRODUCT_EDIT_FAILED,
+    payload: {
+        id,
+        error,
+    },
+});
+
 export const selectProduct = (id) => ({
     type: types.PRODUCT_SELECTED,
     payload: {

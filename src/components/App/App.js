@@ -5,16 +5,14 @@ import { configureStore } from '../../store';
 import React, { useState, useEffect } from 'react';
 import { Router, Route, Redirect } from 'react-router';
 
-import Menus from "../Menus";
+import MenuList from "../ComboList";
 import Offers from '../Offers';
 import Users from '../UsersList';
 import Branches from "../Branches";
-import Products from "../Products";
+import ProductList from "../ProductList";
 import LoginScreen from '../Login';
 import Restaurants from '../Restaurants';
-import NewMenuForm from "../NewMenuForm";
 import TokenRefresh from '../TokenRefresh';
-import NewProductForm from "../NewProductForm";
 import PrivateRoute from '../Routes/PrivateRoute';
 import HomeScreensSuperAdmin from '../HomeScreenSuperAdmin';
 import RestaurantDetails from '../Restaurants/RestaurantDetails';
@@ -69,10 +67,8 @@ const  App = () => {
 							<PrivateRoute exact path='/home_screen_super_admin' component = { HomeScreensSuperAdmin } route={1} />
 							<PrivateRoute exact path = '/users' component = { Users } route={3} />
 							<PrivateRoute exact path = '/promos' component = { Offers } route={4} />
-							<PrivateRoute exact path='/products' component = { Products } />
-							<PrivateRoute exact path='/add_product' component = { NewProductForm } />
-							<PrivateRoute exact path='/add_menu' component = { NewMenuForm } />
-							<PrivateRoute exact path='/menus' component={Menus}/>
+							<PrivateRoute exact path='/products' component = { ProductList } route={6} />
+							<PrivateRoute exact path='/combos' component={MenuList} route={7}/>
 					</Router>
 					{/* Actualiza el token solo si esta autenticado */}
 					<TokenRefresh reviewTime={10000} />

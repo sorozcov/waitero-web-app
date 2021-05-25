@@ -116,6 +116,67 @@ const isFetching = (state = false, action) => {
     }
 };
 
+const isAdding = (state = false, action) => {
+    switch (action.type) {
+        case types.MENU_ADD_STARTED:
+            {
+                return true;
+            }
+        case types.MENU_ADD_COMPLETED:
+            {
+                return false;
+            }
+        case types.MENU_ADD_FAILED:
+            {
+                return false;
+            }
+        default:
+            {
+                return state;
+            }
+    }
+};
+
+const isEditing = (state = false, action) => {
+    switch (action.type) {
+        case types.MENU_EDIT_STARTED:
+            {
+                return true;
+            }
+        case types.MENU_EDIT_COMPLETED:
+        case types.MENU_EDIT_FAILED:
+            {
+                return false;
+            }
+        default:
+            {
+                return state;
+            }
+    }
+};
+
+const isRemoving = (state = false, action) => {
+    switch (action.type) {
+        case types.MENU_REMOVE_STARTED:
+            {
+                return true;
+            }
+        case types.MENU_REMOVE_COMPLETED:
+            {
+                return false;
+            }
+        case types.MENU_REMOVE_FAILED:
+            {
+                return false;
+            }
+        default:
+            {
+                return state;
+            }
+    }
+};
+
+
 const error = (state = null, action) => {
     switch(action.type) {
         case types.MENU_FETCH_FAILED: {
@@ -139,11 +200,19 @@ export default combineReducers({
     order,
     selected,
     isFetching,
+    isAdding,
+    isEditing,
+    isRemoving,
     error,
 });
 
-export const getMenuByID = (state, id) => state.byId[id];
-export const getMenuOrder = (state) => state.order;
-export const getAllMenus = (state) =>state.order.map(id => getMenuByID(state, id));
-export const getSelectedMenu = (state) => getMenuByID(state, state.selected);
-export const getIsFetching = (state) => state.isFetching;
+
+export const getMenu = (state, id) => state.byId[id];
+export const getMenus = state => state.order.map(id => getMenu(state, id));
+export const getSelectedMenu = (state) => state.selected;
+export const isFetchingMenus = state => state.isFetching;
+export const isAddingMenus = state => state.isAdding;
+export const isEditingMenus = state => state.isEditing;
+export const isRemovingMenus = state => state.isRemoving;
+export const getMenusError = state => state.error;
+export const getAddStatus = state => state.addStatus;

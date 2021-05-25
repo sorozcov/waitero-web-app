@@ -123,8 +123,8 @@ export default combineReducers({
     error,
 });
 
-export const getProductByID = (state, id) => state.byId[id];
-export const getProductOrder = (state) => state.order;
-export const getAllProducts = (state) =>state.order.map(id => getProductByID(state, id));
-export const getSelectedProduct = (state) => getProductByID(state, state.selected);
-export const getIsFetching = (state) => state.isFetching;
+export const getProduct = (state, id) => state.byId[id];
+export const getProducts = state => state.order.map(id => getProduct(state, id));
+export const getSelectedProduct = (state) => state.selected;
+export const isFetchingProducts = state => state.isFetching;
+export const getProductsError = state => state.error;
