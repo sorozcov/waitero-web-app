@@ -209,7 +209,7 @@ export default connect(
       dispatch(actions.startFetchingRestaurants());
     },
     createRestaurant(name) {
-      dispatch(actions.startAddingRestaurant({ id: uuid(),name: name,imageUrl:'https://www.guatemala.com/fotos/2021/01/Nuevas-promociones-2x1-de-Trefratelli-en-la-app-de-Cupones-Guatemala.com-1-885x500.jpg' }));
+      dispatch(actions.startAddingRestaurant({ id: uuid(),name: name,imageUrl:'https://pictures.scdn4.secure.raxcdn.com/16_262_r_0.jpg?v=644' }));
     },
     selectRestaurant(restaurant) {
       dispatch(actions.selectingRestaurant(restaurant));

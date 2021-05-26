@@ -7,7 +7,7 @@ import { Multiselect } from 'multiselect-react-dropdown';
 import './styles.css';
 import TextInput from '../Common/textInput';
 import * as selectors from '../../logic/reducers';
-import * as actionsMenus from '../../logic/actions/menus';
+import * as actionsProducts from '../../logic/actions/products';
 import { v4 as uuidv4 } from 'uuid';
 
 function classNames(...classes) {
@@ -275,26 +275,26 @@ export default connect(
     }),
     dispatch => ({
       fetchProducts(values) {
-        dispatch(actionsMenus.startFetchingMenu(values));
+        dispatch(actionsProducts.startFetchingProduct(values));
       },
       createProduct(values, setOpen) {
         if(values.name && values.price && values.description && values.branches && values.id) {
-            dispatch(actionsMenus.completeAddingMenu(values));
+            dispatch(actionsProducts.completeAddingProduct(values));
             setOpen(false);
         }
       },
       editProduct(values, setOpen) {
         if(values.name && values.price && values.description && values.branches && values.id) {
-            dispatch(actionsMenus.completeEditingMenu(values));
+            dispatch(actionsProducts.completeEditingProduct(values));
             setOpen(false);
         }
       },
       selectProduct(product ,setOpen) {
-        dispatch(actionsMenus.selectMenu(product));
+        dispatch(actionsProducts.selectProduct(product));
         setOpen(true);
       },
       deselectProduct(setOpen) {
-        dispatch(actionsMenus.deselectMenu());
+        dispatch(actionsProducts.deselectProduct());
         setOpen(true);
       },
     }),
